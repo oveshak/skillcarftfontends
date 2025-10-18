@@ -1,175 +1,200 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowRight, CheckCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import CoursesFetcher, { Course } from "@/lib/api/course/CoursesFetcher";
 
-type Course = {
-  title: string;
-  instructor?: string;
-  image: string;
-  href: string;
-};
+const ArrowRight = ({ className = "" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+);
 
-const categories = [
-  { name: "IELTS" },
-  { name: "Spoken English" },
-  { name: "Kids English" },
-  { name: "Quran & Arabic" },
-  { name: "Grammar" },
-  { name: "Communication" },
-];
+const FALLBACK_IMG =
+  "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=400&h=225&fit=crop&crop=center";
 
-const courses: Course[] = [
-  {
-    title: "IELTS Course by Munzereen Shahid",
-    instructor: "Munzereen Shahid",
-    image: "https://cdn.10minuteschool.com/images/thumbnails/IELTS_new_16_9.png",
-    href: "/product/ielts-course",
-  },
-  {
-    title: "IELTS LIVE Batch",
-    instructor: "Uttam Deb +4",
-    image: "https://cdn.10minuteschool.com/images/thumbnails/batch-12-ielts-live-batch-thumbnails.jpg",
-    href: "https://10minuteschool.com/product/ielts-live-batch/",
-  },
-  {
-    title: "ঘরে বসে Spoken English",
-    instructor: "Munzereen Shahid",
-    image:
-      "https://cdn.10minuteschool.com/images/thumbnails/ghore-boshe-Spoken-English-course-thumbnail-by-Munzereen-Shahid-16x9-28.jpg?",
-    href: "https://10minuteschool.com/product/ghore-boshe-spoken-english/",
-  },
-  {
-    title: "Spoken English Junior LIVE Batch",
-    instructor: "Rukhsar Sanjaree +4",
-    image: "https://cdn.10minuteschool.com/images/catalog/media/sej-thumbnial_1734278669669.jpg",
-    href: "https://10minuteschool.com/product/spoken-english-junior-live-batch/",
-  },
-  {
-    title: "English Communication for Professionals",
-    instructor: "Munzereen Shahid",
-    image:
-      "https://cdn.10minuteschool.com/images/thumbnails/english-communication-for-professionals/english-communication-for-professsionals-course-thumbnail---16x9.jpg",
-    href: "https://10minuteschool.com/product/english-for-professionals-course/",
-  },
-  {
-    title: "Complete English Grammar Course",
-    instructor: "Munzereen Shahid",
-    image: "https://cdn.10minuteschool.com/images/thumbnails/complete-grammar-course-thumbnail.jpg",
-    href: "https://10minuteschool.com/product/english-grammar-course/",
-  },
-  {
-    title: "English for Everyday",
-    instructor: "Munzereen Shahid",
-    image: "https://cdn.10minuteschool.com/images/Thumbnails/english_for_everyday_16x9.png",
-    href: "https://10minuteschool.com/product/english-for-everyday/",
-  },
-  {
-    title: "IELTS Reading & Listening Mock Tests",
-    image:
-      "https://cdn.10minuteschool.com/images/Thumbnails/IELTS-Listening-Reading-Mock-Tests-Course-Thumbnail_discount-30_16_9.jpg",
-    href: "https://10minuteschool.com/product/ielts-reading-and-listening-mock-tests/",
-  },
-  {
-    title: "২৪ ঘণ্টায় কোরআন শিখি",
-    instructor: "মাওলানা শাইখ মুহাম্মাদ জামাল উদ্দীন",
-    image:
-      "https://cdn.10minuteschool.com/images/catalog/media/%C3%A0%C2%A7%C2%A8%C3%A0%C2%A7%C2%AA-%C3%A0%C2%A6%C2%98%C3%A0%C2%A6%C2%A3%C3%A0%C2%A7%C2%8D%C3%A0%C2%A6%C2%9F%C3%A0%C2%A6%C2%BE%C3%A0%C2%A6%C2%AF%C3%A0%C2%A6%C2%BC-%C3%A0%C2%A6%C2%95%C3%A0%C2%A7%C2%8B%C3%A0%C2%A6%C2%B0%C3%A0%C2%A6%C2%86%C3%A0%C2%A6%C2%A8-%C3%A0%C2%A6%C2%B6%C3%A0%C2%A6%C2%BF%C3%A0%C2%A6%C2%96%C3%A0%C2%A6%C2%BF---Course-Thumbnail-PSD_1732445930516.jpg",
-    href: "https://10minuteschool.com/product/easy-quran-reading/",
-  },
-  {
-    title: "অর্থ বুঝে কুরআন শিখি",
-    instructor: "Hafiz Mawlana Muhammad Muhsin Mashkur",
-    image:
-      "https://cdn.10minuteschool.com/images/thumbnails/best-quran-shikhi-course-thumbnail.jpg",
-    href: "https://10minuteschool.com/product/quran-shikhi-course/",
-  },
-];
+/** ✅ small inner component to host hooks */
+function AutoSwitch({
+  loading,
+  err,
+  activeTab,
+  paidLen,
+  freeLen,
+  onSwitch,
+}: {
+  loading: boolean;
+  err: string | null;
+  activeTab: "paid" | "free";
+  paidLen: number;
+  freeLen: number;
+  onSwitch: (tab: "paid" | "free") => void;
+}) {
+  useEffect(() => {
+    if (!loading && !err && activeTab === "paid" && paidLen === 0 && freeLen > 0) {
+      onSwitch("free");
+    }
+  }, [loading, err, activeTab, paidLen, freeLen, onSwitch]);
+  return null;
+}
 
-const CategoryFilters = () => {
-  const [active, setActive] = useState(categories[0].name);
-  return (
-    <div className="mt-8 flex justify-center">
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-        {categories.map((c) => (
-          <button
-            key={c.name}
-            onClick={() => setActive(c.name)}
-            className={cn(
-              "whitespace-nowrap rounded-lg border px-5 py-2 text-sm font-medium transition-colors",
-              active === c.name
-                ? "bg-card border-primary text-foreground"
-                : "bg-card border-border text-muted-foreground hover:bg-border/50"
-            )}
-          >
-            {c.name}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const CourseCard = ({ title, instructor, image, href }: Course) => (
+const CourseCard = ({ title, image, price, badge, href, isFree }: Course) => (
   <a
     href={href}
-    className="group block overflow-hidden rounded-card bg-card transition-transform duration-300 ease-in-out hover:-translate-y-1"
+    className="group relative block overflow-hidden md:border  hover:border-1 md:rounded-sm hover:border-green-200 transition-all duration-300 ease-in-out hover:-translate-y-1   border-gray-300"
   >
-    <div className="relative aspect-[16/9] w-full">
-      <Image src={image} alt={title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
-      <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-black/10" />
-    </div>
-    <div className="flex h-[calc(100%-56.25%)] flex-col p-4">
-      <h3 className="text-base font-semibold text-foreground">{title}</h3>
-      {instructor && (
-        <p className="mt-1 text-sm text-muted-foreground">{instructor}</p>
-      )}
-      <div className="mt-auto flex items-center gap-1 text-sm font-medium text-primary">
-        <span>বিস্তারিত</span>
-        <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+    <div className="flex gap-5 md:gap-0  flex-row md:flex-col">
+      <div className="relative w-40 md:w-full overflow-hidden">
+        <div className="relative w-full md:w-full md:h-auto aspect-[16/9]">
+          <Image
+            src={image || FALLBACK_IMG}
+            alt={title}
+            fill
+            className="rounded-sm md:rounded-none object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 20vw"
+            priority={false}
+          />
+        </div>
+        {badge && (
+          <span className="absolute top-2 left-2 bg-green-600 text-white text-[10px] md:text-xs px-2 py-0.5 rounded">
+            {badge}
+          </span>
+        )}
+      </div>
+
+      <div className="md:p-4">
+        <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1 line-clamp-2 leading-tight">
+          {title}
+        </h3>
+        <p className="text-xs md:text-sm text-gray-600 mb-3">Tisat Fatema Tia</p>
+        <div className="flex items-center justify-between">
+          {isFree ? (
+            <span className="text-xs md:text-sm font-bold text-green-600">ফ্রি</span>
+          ) : (
+            <span className="text-xs md:text-sm font-bold text-green-600">৳ {price}</span>
+          )}
+        </div>
       </div>
     </div>
   </a>
 );
 
-export const LanguageLearningSection = () => {
+const FreelancingSection = () => {
+  const [activeTab, setActiveTab] = useState<"paid" | "free">("paid");
+
   return (
-    <section className="bg-background py-14 text-foreground md:py-20">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-center gap-2">
-          <span className="text-2xl" role="img" aria-label="books">
-            📚
-          </span>
-          <p className="font-medium text-accent-purple">ভাষা শিক্ষা</p>
-        </div>
-        <h1 className="mt-3 text-center text-3xl font-bold md:mt-4 md:text-5xl">
-          ভাষা শিক্ষার সেরা কোর্সসমূহ
-        </h1>
-        <p className="mx-auto mt-3 max-w-3xl text-center text-muted-foreground">
-          IELTS, Spoken English, Grammar, Communication এবং আরও অনেক কোর্স —
-          নিজের প্রয়োজন অনুযায়ী বেছে নিন।
-        </p>
+    <CoursesFetcher>
+      {({ loading, err, paidCourses, freeCourses }) => {
+        const paidLen = paidCourses?.length ?? 0;
+        const freeLen = freeCourses?.length ?? 0;
+        const visible: Course[] = activeTab === "paid" ? paidCourses ?? [] : freeCourses ?? [];
 
-        <CategoryFilters />
+        return (
+          <div className="min-h-screen bg-gray-50">
+            {/* ✅ run effect safely here */}
+            <AutoSwitch
+              loading={!!loading}
+              err={err ?? null}
+              activeTab={activeTab}
+              paidLen={paidLen}
+              freeLen={freeLen}
+              onSwitch={setActiveTab}
+            />
 
-        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {courses.map((course, i) => (
-            <CourseCard key={i} {...course} />
-          ))}
-        </div>
+            <div className="bg-gray-900 text-white relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"></div>
+              <div className="container mx-auto px-4 pt-7 relative z-10">
+                <div className="mb-6 flex items-center gap-2 text-sm text-gray-300">
+                  <span>কোর্সসমূহ</span>
+                  <ArrowRight className="h-4 w-4" />
+                  <span className="text-white ">ফ্রিল্যান্সিং</span>
+                </div>
 
-        <div className="mt-12 text-center">
-          <a
-            href="https://10minuteschool.com/categories/language-learning/"
-            className="inline-flex items-center justify-center gap-2 rounded-button bg-primary px-8 py-3 font-semibold text-white transition-colors hover:bg-primary/90"
-          >
-            10 Minute School-এ দেখুন
-            <ArrowRight className="h-5 w-5" />
-          </a>
-        </div>
-      </div>
-    </section>
+                <div className="flex flex-col lg:flex-row items-center justify-between lg:gap-12">
+                  <div className="flex-1 max-w-2xl">
+                    <h1 className="text-xl lg:text-3xl font-bold mb-6">ফ্রিল্যান্সিং</h1>
+                    <p className=" text-xs lg:text-sm text-gray-300 leading-relaxed mb-8">
+                      ফ্রিল্যান্সিং মার্কেটপ্লেসে বিভিন্ন দেশের সহজ ফ্রিল্যান্সিং বিষয়ে কর্মীরা পরস্পর চো
+                      দিয়ে দিয়ে রয় নিয়ে আসছে দেশ বিদেশ Freelancing Courses! SEO বিজ, ডাটা এন্ট্রি, Logo
+                      Design, T- Shirt ডিজাইনের মতো ক্রিয়েটিভ শিল্প কার্স শেখরার মর কাল চে দিয়ে দিয়ে
+                      Freelancing Course শেখানো।
+                    </p>
+
+                    <div className="flex  rounded-lg gap-6  backdrop-blur-sm ">
+                      <button
+                        onClick={() => setActiveTab("paid")}
+                        className={`px-6 pb-1 text-sm lg:text-lg font-medium transition-all duration-200 ${
+                          activeTab === "paid"
+                            ? " text-green-600 shadow-lg  border-b-4 border-b-green-600"
+                            : "text-gray-300 hover:text-white "
+                        }`}
+                      >
+                        Paid Courses ({paidLen})
+                      </button>
+                      <button
+                        onClick={() => setActiveTab("free")}
+                        className={`px-6 pb-1 text-sm lg:text-lg font-medium transition-all duration-200 ${
+                          activeTab === "free"
+                            ? " text-green-600 shadow-lg  border-b-4 border-b-green-600"
+                            : "text-gray-300 hover:text-white "
+                        }`}
+                      >
+                        Free Courses ({freeLen})
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="container mx-auto px-4 py-5 md:pt-16">
+              <div className="mb-8">
+                <h2 className="text-xl flex justify-between items-center font-bold text-gray-900 mb-2">
+                  <p className=" text-xl lg:text-2xl font-bold text-gray-900">
+                    {activeTab === "paid" ? "Paid Courses" : "Free Courses"}
+                  </p>
+                  <p className="text-lg font-normal text-gray-500 ">
+                    ({activeTab === "paid" ? paidLen : freeLen} courses)
+                  </p>
+                </h2>
+              </div>
+
+              {loading ? (
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 pb-10">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="animate-pulse h-28 sm:h-56 bg-gray-200 md:rounded-sm border border-gray-200"
+                    />
+                  ))}
+                </div>
+              ) : err ? (
+                <div className="text-center py-16">
+                  <h3 className="text-xl font-semibold text-red-600 mb-2">কোর্স লোড হয়নি</h3>
+                  <p className="text-gray-600">{err}</p>
+                </div>
+              ) : (
+                <>
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 pb-10">
+                    {(visible ?? []).map((course, i) => (
+                      <CourseCard key={`${course.href}-${i}`} {...course} />
+                    ))}
+                  </div>
+
+                  {activeTab === "free" && freeLen === 0 && (
+                    <div className="text-center py-16">
+                      <div className="text-6xl mb-4">📚</div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2">কোন ফ্রি কোর্স নেই</h3>
+                      <p className="text-gray-600">শীঘ্রই নতুন ফ্রি কোর্স আসছে!</p>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        );
+      }}
+    </CoursesFetcher>
   );
 };
+
+export default FreelancingSection;

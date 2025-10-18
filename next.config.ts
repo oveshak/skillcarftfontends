@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: '**',
       },
+       {
+      protocol: 'https',
+      hostname: 'cdn.10minuteschool.com',
+    },
+   { protocol: "https", hostname: "cdn.10minuteschool.com" },
+    { protocol: "https", hostname: "slelguoygbfzlpylpxfs.supabase.co" },
     ],
   },
   outputFileTracingRoot: path.resolve(__dirname, '../../'),
@@ -27,4 +33,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-// Orchids restart: 1758133560512
+

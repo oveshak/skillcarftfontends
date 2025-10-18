@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { MapPin } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
+import Link from "next/link";
 
 const locations = [
   { name: 'উত্তরা', href: 'https://www.google.com/maps/place/10+Minute+School+English+Centre+(Uttara)/@23.8645579,90.3963086,17z/data=!4m7!3m6!1s0x3755c5b9650f1f69:0x5e5b69cc4630435f!8m2!3d23.8645583!4d90.3988842!15sCj44dGggRmxvb3IsIE1pbGxlbm5pdW0gVG93ZXIsIEhvdXNlIDIsIFJvYWQgNywgU2VjdG9yIDMsIFV0dGFyYZIBEGVkdWNhdGlvbl9jZW50ZXLgAQA!16s%2Fg%2F11vr95pdw8?entry=tts' },
@@ -24,7 +25,7 @@ const courseData = [
     description: "৪র্থ-১০ম শ্রেণির শিক্ষার্থীদের জন্য",
     cta: "ফ্রি ক্লাস বুক করুন",
     ctaColorClass: 'bg-[#2D8659]',
-    href: 'https://10minuteschool.com/event/free-class-spoken-english-junior'
+    href: '/event/free-class-spoken-english-junior'
   },
   {
     image: "https://cdn.10minuteschool.com/images/ielts_thumbnails_1736327419792.png",
@@ -32,7 +33,7 @@ const courseData = [
     description: "১,০০০+ প্র্যাকটিস ম্যাটেরিয়ালের এক্সেস",
     cta: "ফ্রি ক্লাস বুক করুন",
     ctaColorClass: 'bg-[#2D8659]',
-    href: 'https://10minuteschool.com/event/ielts-programme'
+    href: '/event/ielts-programme'
   },
   {
     image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/study-abroad-sqr-thumbnail-14.png?",
@@ -48,7 +49,7 @@ const courseData = [
     description: "এস এস সি শিক্ষার্থীদের জন্য",
     cta: "কোর্সে ভর্তি হন",
     ctaColorClass: 'bg-primary',
-    href: 'https://10minuteschool.com/product/ssc-english-course/'
+    href: '/product/ssc-english-course/'
   },
   {
     image: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/hsc-english-crash-course-sqr-thumbnail-16.png?",
@@ -56,14 +57,14 @@ const courseData = [
     description: "এইচ এস সি শিক্ষার্থীদের জন্য",
     cta: "কোর্সে ভর্তি হন",
     ctaColorClass: 'bg-primary',
-    href: 'https://10minuteschool.com/product/hsc-english-crash-course/'
+    href: '/product/hsc-english-crash-course/'
   }
 ];
 
 const OfflineCenters = () => {
     return (
-        <div className="bg-background pt-10">
-            <div className="container mx-auto px-4">
+        <div className=" pt-10">
+            <div className=" container mx-auto px-4">
                 <div className="relative bg-[linear-gradient(180deg,rgba(123,21,21,0.40)_0%,rgba(59,6,6,0.40)_100%)] rounded-[34px] border border-[#592327] text-center px-2 md:px-6 pt-10 pb-8 text-white">
                     <h2 className="absolute text-destructive border border-destructive inline-block rounded-full px-[20px] py-[6px] bg-[#441818] left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 text-sm font-medium whitespace-nowrap">
                         অফলাইন সেন্টার
@@ -76,7 +77,7 @@ const OfflineCenters = () => {
                         <ul className="flex items-center gap-2 mb-6 flex-nowrap md:justify-center">
                             {locations.map((location) => (
                                 <li key={location.name}>
-                                    <a
+                                    <Link
                                         href={location.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
@@ -86,44 +87,57 @@ const OfflineCenters = () => {
                                             <MapPin className="h-4 w-4" />
                                         </span>
                                         <span className="whitespace-nowrap">{location.name}</span>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-3 mb-8 md:grid-cols-3 md:gap-6">
+                    <div className="relative flex flex-nowrap gap-4 overflow-x-auto scroll-smooth  md:gap-6">
                         {courseData.map((course) => (
-                            <a key={course.title} href={course.href} className="flex flex-col h-full gap-3 p-3 text-left transition-all duration-300 bg-black/20 rounded-xl md:gap-4 md:p-4 hover:bg-black/40">
-                                <div className="w-full rounded-lg overflow-hidden aspect-square">
-                                    <Image
-                                        src={course.image}
+
+                             <Link
+            key={course.title} href={course.href} 
+            className="flex items-center flex-shrink-0 w-4/5 gap-3 px-4 py-3 transition-colors bg-card/60 hover:bg-card/90 rounded-lg sm:w-auto sm:min-w-[300px] md:min-w-[320px] "
+          >
+            <div className="h-[50px] w-[50px] flex-shrink-0">
+              <Image
+                 src={course.image}
                                         alt={course.title}
-                                        width={300}
-                                        height={300}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                                <div className="flex flex-col flex-grow">
-                                    <h4 className="text-base font-bold text-white md:text-lg">{course.title}</h4>
-                                    <p className="text-sm text-gray-300 mt-1">{course.description}</p>
-                                </div>
-                                <div className="mt-auto">
-                                    <div className={`${course.ctaColorClass} rounded-lg py-2.5 px-4 text-sm font-bold text-center text-white`}>
-                                        {course.cta}
-                                    </div>
-                                </div>
-                            </a>
+                width={50}
+                height={50}
+                className="rounded-lg"
+              />
+            </div>
+            <div className="flex-1 ">
+              <h4 className="text-sm text-left  font-semibold text-foreground">
+                {course.title}
+              </h4>
+              <p className="text-xs text-left text-muted-foreground font-bengali">
+                 {course.cta}
+              </p>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground" />
+          </Link>
+                            
                         ))}
                     </div>
 
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                        <a href="https://10minuteschool.com/event/book-your-free-class-10ms-english-centre" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 rounded-lg transition-colors w-full md:w-auto">
-                            ফ্রি ক্লাস বুক করুন
-                        </a>
-                        <a href="https://10minuteschool.com/english-centre/" className="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg transition-colors w-full md:w-auto">
-                            বিস্তারিত জানুন
-                        </a>
+                    <div className="flex  pt-7 flex-row items-center justify-center gap-4">
+                       <Link
+              className="flex items-center justify-center gap-1 text-primary hover:underline font-bengali"
+              href="/en/categories/free/?ref=FreeCourse_text"
+            >
+              ফ্রি ক্লাস বুক করুন{" "}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+                       <Link
+              className="flex items-center justify-center gap-1 text-primary hover:underline font-bengali"
+              href="/en/categories/free/?ref=FreeCourse_text"
+            >
+              বিস্তারিত জানুন{" "}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
                     </div>
                 </div>
             </div>

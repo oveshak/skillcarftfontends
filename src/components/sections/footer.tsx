@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
+import image from "../../../public/skillsCraftlogo.png"
 const companyLinks = [
   { href: "https://app.10minuteschool.com/careers", text: "ক্যারিয়ার / নিয়োগ বিজ্ঞপ্তি" },
   { href: "https://docs.google.com/forms/d/e/1FAIpQLScWh9jjyWnUKdDKET1-LHvdTxuU6-ssd0GLTI-0JlQ2MH6RzA/viewform", text: "শিক্ষক হিসাবে যোগ দিন" },
@@ -11,7 +11,7 @@ const companyLinks = [
 ];
 
 const otherLinks = [
-  { href: "https://blog.10minuteschool.com/", text: "ব্লগ" },
+  { href: "", text: "ব্লগ" },
   { href: "/store/all", text: "বুক স্টোর" },
   { href: "/content", text: "ফ্রি নোটস ও গাইড" },
   { href: "/jobs-prep", text: "চাকরি প্রস্তুতি কোর্সসমূহ" },
@@ -49,23 +49,23 @@ const socialLinks = [
 
 const Footer = () => {
   return (
-    <footer className="bg-primary-dark text-text-primary pt-14 pb-8 md:pt-20">
+    <footer className="bg-white text-text-primary pt-14 pb-8 md:pt-20">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           
           <div className="flex flex-col">
             <Link href="/" className="mb-6">
               <Image
-                src="https://10minuteschool.com/images/logo.svg"
+                src={image}
                 alt="10 Minute School Logo"
                 width={150}
                 height={40}
                 className="w-[150px] h-auto"
               />
             </Link>
-            <h3 className="text-base font-semibold mb-4 text-white">ডাউনলোড করুন আমাদের মোবাইল অ্যাপ</h3>
+            <h3 className="text-base font-semibold mb-4 text-gray-600">ডাউনলোড করুন আমাদের মোবাইল অ্যাপ</h3>
             <div className="flex items-center gap-3">
-              <a href="https://play.google.com/store/apps/details?id=com.a10minuteschool.tenminuteschool" target="_blank" rel="noopener noreferrer">
+              <a href="" target="_blank" rel="noopener noreferrer">
                 <Image
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/icons/google-play-icon_1695731678094-6.png?"
                   alt="Download on Google Play"
@@ -85,29 +85,29 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-5 text-white">কোম্পানি</h3>
+            <h3 className="text-lg font-semibold mb-5 text-gray-800">কোম্পানি</h3>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.text}>
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary hover:text-text-primary transition-colors">
+                  <Link href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm lg:text-base text-gray-800 hover:text-green-800 transition-colors">
                     {link.text}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-5 text-white">অন্যান্য</h3>
+            <h3 className="text-lg font-semibold mb-5 text-gray-800">অন্যান্য</h3>
             <ul className="space-y-3">
               {otherLinks.map((link) => (
                 <li key={link.text}>
                   {link.href.startsWith("http") ? (
-                    <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm text-text-secondary hover:text-text-primary transition-colors">
+                    <Link href={link.href} target="_blank" rel="noopener noreferrer" className="text-sm lg:text-base text-gray-800 hover:text-green-800 transition-colors">
                       {link.text}
-                    </a>
+                    </Link>
                   ) : (
-                    <Link href={link.href} className="text-sm text-text-secondary hover:text-text-primary transition-colors">
+                    <Link href={link.href} className="text-sm lg:text-base text-gray-800 hover:text-green-800 transition-colors">
                       {link.text}
                     </Link>
                   )}
@@ -117,24 +117,24 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-5 text-white">আমাদের যোগাযোগ মাধ্যম</h3>
+            <h3 className="text-lg font-semibold mb-5 text-black">আমাদের যোগাযোগ মাধ্যম</h3>
             <div className="space-y-3 text-sm text-text-secondary">
-              <p>কল করুন: <a href="tel:16910" className="hover:text-text-primary transition-colors">16910</a> (24x7)</p>
-              <p>হোয়াটসঅ্যাপ: <a href="https://api.whatsapp.com/send?phone=+8801896016252&text=I%20need%20your%20assistance" className="hover:text-text-primary transition-colors" target="_blank" rel="noopener noreferrer">+8801896016252</a> (24x7)</p>
-              <p>দেশের বাহির থেকে: <a href="tel:+8809610916910" className="hover:text-text-primary transition-colors">+880 9610916910</a></p>
-              <p>ইমেইল: <a href="mailto:support@10minuteschool.com" className="hover:text-text-primary transition-colors">support@10minuteschool.com</a></p>
+              <p className="text-sm lg:text-base text-gray-800">কল করুন: <a href="tel:16910" className="hover:text-green-800 transition-colors">16910</a> (24x7)</p>
+              <p className="text-sm lg:text-base text-gray-800">হোয়াটসঅ্যাপ: <a href="https://api.whatsapp.com/send?phone=+8801896016252&text=I%20need%20your%20assistance" className="hover:text-green-800 transition-colors" target="_blank" rel="noopener noreferrer">+8801896016252</a> (24x7)</p>
+              <p className="text-sm lg:text-base text-gray-800">দেশের বাহির থেকে: <a href="tel:+8809610916910" className="hover:text-green-800 transition-colors">+880 9610916910</a></p>
+              <p className="text-sm lg:text-base text-gray-800" >ইমেইল: <a href="mailto:support@10minuteschool.com" className="hover:text-green-800 transition-colors">support@10minuteschool.com</a></p>
             </div>
             <div className="flex items-center gap-3 mt-6">
               {socialLinks.map((social) => (
-                <a key={social.alt} href={social.href} target="_blank" rel="noopener noreferrer" className="bg-card p-2 rounded-md hover:opacity-80 transition-opacity">
+                <Link key={social.alt} href={social.href} target="_blank" rel="noopener noreferrer" className=" ">
                   <Image
                     src={social.src}
                     alt={social.alt}
                     width={20}
                     height={20}
-                    className="w-5 h-5"
+                    className="w-10 h-10"
                   />
-                </a>
+                </Link>
               ))}
             </div>
           </div>

@@ -10,7 +10,8 @@
 
 @theme {
   /* Shadcn/UI colors - Dark Theme */
-  --color-background: #1a1b23;
+  /* --color-background: #1a1b23; */
+  --color-background: #ffffff;
   --color-foreground: #ffffff;
 
   --color-card: #2a2d3a;
@@ -198,19 +199,38 @@
   }
 
   a:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   .container {
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.5rem; /* 24px */
-    padding-right: 1.5rem; /* 24px */
+    
   }
 }
 
 /* Hide Next.js error overlay portal */
 nextjs-portal {
   display: none !important;
+}
+
+
+.overflow-x-auto {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+.overflow-x-auto::-webkit-scrollbar {
+          display: none; /* Chrome, Safari, Opera */
+        }
+
+        aside::-webkit-scrollbar {
+  display: none;
+}
+
+/* For Firefox */
+aside {
+  scrollbar-width: none; /* hides scrollbar */
+  -ms-overflow-style: none; /* for Internet Explorer/Edge */
 }

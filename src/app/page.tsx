@@ -1,4 +1,4 @@
-import Navigation from '@/components/sections/navigation';
+
 import HeroSection from '@/components/sections/hero';
 import OfflineCenters from '@/components/sections/offline-centers';
 import VideoSection from '@/components/sections/video-section';
@@ -10,24 +10,24 @@ import Testimonials from '@/components/sections/testimonials';
 import FreeResources from '@/components/sections/free-resources';
 import SuccessStats from '@/components/sections/success-stats';
 import MobileAppSection from '@/components/sections/mobile-app';
-import Footer from '@/components/sections/footer';
+
 
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <Navigation />
+
       <HeroSection />
-      <OfflineCenters />
+     
       <VideoSection />
       <SscHscCourses />
       <SkillsCourses />
       <AdmissionCourses />
       <JobPreparationSection />
       <Testimonials />
-      <FreeResources />
+      {/* <FreeResources /> */}
       <SuccessStats />
       <MobileAppSection />
-      <Footer />
+
     </main>
   );
 }

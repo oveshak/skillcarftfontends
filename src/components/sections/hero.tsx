@@ -1,6 +1,8 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import OfflineCenters from "./offline-centers";
 
 const classCardData = [
   {
@@ -27,32 +29,59 @@ const classCardData = [
       "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/hscbag_1732778180651-5.png?",
     link: "#",
   },
+  {
+    name: "HSC ২৭",
+    imgSrc:
+      "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/hscbag_1732778180651-5.png?",
+    link: "#",
+  },
+  {
+    name: "ক্লাস ৯, ১০",
+    imgSrc:
+      "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/9-10_1732778140427-3.png?",
+    link: "#",
+  },
 ];
 
 const skillCardData = [
   {
     imgSrc:
       "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/SEJ_Live_Batch_new_2_1739180955021-6.png?",
-    href: "https://10minuteschool.com/product/spoken-english-junior-live-batch/",
+    href: "/product/spoken-english-junior-live-batch/",
   },
   {
     imgSrc: "https://cdn.10minuteschool.com/images/IELTS-by-MS_1739183534497.png",
-    href: "https://10minuteschool.com/product/ielts-course/",
+    href: "/product/ielts-course/",
   },
   {
     imgSrc:
       "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/IELTS-CBC_1737226553456-8.jpg?",
-    href: "https://10minuteschool.com/product/ielts-live-batch/",
+    href: "/product/ielts-live-batch/",
+  },
+  {
+    imgSrc:
+      "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/SEJ_Live_Batch_new_2_1739180955021-6.png?",
+    href: "/product/spoken-english-junior-live-batch/",
+  },
+  {
+    imgSrc:
+      "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/SEJ_Live_Batch_new_2_1739180955021-6.png?",
+    href: "/product/spoken-english-junior-live-batch/",
+  },
+  {
+    imgSrc:
+      "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/SEJ_Live_Batch_new_2_1739180955021-6.png?",
+    href: "/product/spoken-english-junior-live-batch/",
   },
   {
     imgSrc:
       "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/CEGC_1737226615398-9.jpg?",
-    href: "https://10minuteschool.com/product/english-grammar-course/",
+    href: "/product/english-grammar-course/",
   },
   {
     imgSrc:
       "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/GBSE_%281%29_1737226645568-10.jpg?",
-    href: "https://10minuteschool.com/product/ghore-boshe-spoken-english/",
+    href: "/product/ghore-boshe-spoken-english/",
   },
 ];
 
@@ -62,35 +91,42 @@ const programCardData = [
     subtitle: "ভর্তি চলছে",
     imgSrc:
       "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/kids-english-sqr-thumbnail-new-11.png?",
-    href: "https://10minuteschool.com/en/product/kids-english-programme/",
+    href: "/en/product/kids-english-programme/",
   },
   {
     title: "Spoken English Junior",
     subtitle: "সকল ব্রাঞ্চে ভর্তি চলছে ",
     imgSrc:
       "https://cdn.10minuteschool.com/images/thumbnails/spoken-english-junior-sqr-thumbnail.png",
-    href: "https://10minuteschool.com/spoken-english-junior-programme/",
+    href: "/spoken-english-junior-programme/",
   },
   {
     title: "Spoken English Junior LIVE ব্যাচ",
     subtitle: "সকল ব্যাচে ভর্তি চলছে ",
     imgSrc:
       "https://cdn.10minuteschool.com/images/catalog/media/sej-sqrt-thumbnial_1734278679106.jpg",
-    href: "https://10minuteschool.com/junior-spoken-english-live-batch/",
+    href: "/junior-spoken-english-live-batch/",
   },
   {
     title: "Study Abroad",
     subtitle: "ফ্রী কন্সাল্টেসন বুক করুন",
     imgSrc:
       "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/Study-Abroad-150_1755758870578-4.png?",
-    href: "https://10minuteschool.com/en/product/study-abroad/",
+    href: "/en/product/study-abroad/",
+  },
+  {
+    title: "Kids' English",
+    subtitle: "ভর্তি চলছে",
+    imgSrc:
+      "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/test-clones/3e9ee02a-24d5-4d62-8b67-adb8542c368e-10minuteschool-com/assets/images/kids-english-sqr-thumbnail-new-11.png?",
+    href: "/en/product/kids-english-programme/",
   },
 ];
 
 const HeroSection = () => {
   return (
-    <div className="bg-background text-foreground py-10 bg-[url('https://cdn.10minuteschool.com/json/Background_Noise_1732776287934_1736059620396.png')]">
-      <div className="px-2 md:container md:px-0">
+    <div className="bg-[#1a1b23] text-foreground py-10 bg-[url('https://cdn.10minuteschool.com/json/Background_Noise_1732776287934_1736059620396.png')]">
+      <div className="px-2 md:container md:px-0 mx-auto">
         <div className="items-center justify-center hidden pb-10 md:flex h-[100px]">
           <Image
             alt="শেখার যাত্রা শুরু এখানেই"
@@ -109,12 +145,12 @@ const HeroSection = () => {
             <h3 className="text-base md:text-2xl md:max-w-[360px] mb-4 mx-auto font-bengali">
               অনলাইন ব্যাচ ২০২৫ এর সকল কোর্সে ভর্তি চলছে!
             </h3>
-            <div className="flex gap-2 pb-1 pr-1 mb-4 overflow-x-auto lg:justify-center md:gap-4 md:mb-6 scrollbar-hide">
+            <div className="flex gap-2 pb-1 pr-1 mb-4 relative  flex-nowrap mx-auto overflow-x-auto scroll-smooth md:gap-4 md:mb-6">
               {classCardData.map((card) => (
                 <Link
                   href={card.link}
                   key={card.name}
-                  className="group flex flex-shrink-0 w-[100px] md:w-[122px] h-[129px] backdrop-blur-md cursor-pointer flex-col items-center justify-between rounded-2xl text-white bg-white/10 px-2 py-5 transition-all duration-300"
+                  className="group flex flex-shrink-0 w-[100px] md:w-[122px] lg:h-[129px] backdrop-blur-md cursor-pointer flex-col items-center justify-between rounded-2xl text-white bg-white/10 px-2 py-5 transition-all duration-300"
                 >
                   <Image
                     alt={card.name}
@@ -132,7 +168,7 @@ const HeroSection = () => {
             <div className="flex items-center justify-center gap-6">
               <Link
                 className="flex items-center gap-1 text-primary hover:underline font-bengali"
-                href="https://10minuteschool.com/event/hsc-online-batch/"
+                href="/event/hsc-online-batch/"
               >
                 এইচএসসি ২৬-২৭ ফ্রি ক্লাস বুক করুন{" "}
                 <ArrowRight className="w-4 h-4" />
@@ -148,11 +184,11 @@ const HeroSection = () => {
               পছন্দের স্কিল শিখুন, নিজেকে সেরা করে গড়ে তুলুন
             </h3>
             <div className="mb-4 md:mb-6">
-              <div className="scrollbar-hide relative flex flex-nowrap gap-4 overflow-x-scroll scroll-smooth snap-x snap-mandatory">
+              <div className="relative flex flex-nowrap gap-4 overflow-x-auto scroll-smooth">
                 {skillCardData.map((card, index) => (
                   <Link
                     key={index}
-                    className="w-[94px] flex-shrink-0 snap-start"
+                    className="w-[94px] flex-shrink-0"
                     href={card.href}
                   >
                     <Image
@@ -160,7 +196,7 @@ const HeroSection = () => {
                       src={card.imgSrc}
                       width={282}
                       height={399}
-                      className="transition-all duration-300 rounded-md shadow-lg hover:shadow"
+                      className="transition-all duration-300 rounded-md shadow-lg hover:shadow-xl"
                     />
                   </Link>
                 ))}
@@ -168,7 +204,7 @@ const HeroSection = () => {
             </div>
             <Link
               className="flex items-center justify-center gap-1 text-primary hover:underline font-bengali"
-              href="https://10minuteschool.com/en/categories/free/?ref=FreeCourse_text"
+              href="/en/categories/free/?ref=FreeCourse_text"
             >
               ৩০+ ফ্রি কোর্সে এনরোল হতে ক্লিক করুন{" "}
               <ArrowRight className="w-4 h-4" />
@@ -176,12 +212,12 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-4 px-4 py-10 mt-4 overflow-x-auto md:justify-center flex-nowrap scrollbar-hide snap-x snap-mandatory">
+      <div className="container mx-auto relative flex flex-nowrap gap-4 overflow-x-auto scroll-smooth  px-4 py-10 mt-4">
         {programCardData.map((card) => (
           <Link
             key={card.title}
             href={card.href}
-            className="flex items-center flex-shrink-0 w-4/5 gap-3 px-4 py-3 transition-colors bg-card/60 hover:bg-card/90 snap-start rounded-lg sm:w-auto sm:min-w-[300px] md:min-w-[320px] "
+            className="flex items-center flex-shrink-0 w-4/5 gap-3 px-4 py-3 transition-colors bg-card/60 hover:bg-card/90 rounded-lg sm:w-auto sm:min-w-[300px] md:min-w-[320px] "
           >
             <div className="h-[50px] w-[50px] flex-shrink-0">
               <Image
@@ -204,6 +240,8 @@ const HeroSection = () => {
           </Link>
         ))}
       </div>
+
+      <OfflineCenters />
     </div>
   );
 };
