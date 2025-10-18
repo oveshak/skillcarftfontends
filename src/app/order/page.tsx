@@ -234,20 +234,18 @@ const handlePay = async () => {
 
     // ✅ কেবল প্রয়োজনীয় ফিল্ড পাঠান
     const payload = {
-      payment_status: 'pending',
-      payment_type: 'full',
-      amount: Number(
-        products.reduce((s, p) => s + p.discountedPrice * (p.quantity ?? 1), 0)
-      ),
-      number: '',                 // bkash হলে phone দেয়া ভালো
-      transaction_id: '',                  // গেটওয়ে থেকে পেলে আপডেট করবেন
-      payment_method: PAYMENT_METHOD_MAP[paymentMethod], // ✅ enum ঠিক
-      course_id,
-                                  // ✅ এখন 0 নয়
-      installation_status: [] as number[],
-      number:"01794003055",
-      payment_way: "manual",
-    };
+  payment_status: 'pending',
+  payment_type: 'full',
+  amount: Number(
+    products.reduce((s, p) => s + p.discountedPrice * (p.quantity ?? 1), 0)
+  ),
+  number: "01794003055",            // ✅ শুধু একবার থাকবে
+  transaction_id: '',               // গেটওয়ে থেকে পেলে আপডেট করবে
+  payment_method: PAYMENT_METHOD_MAP[paymentMethod],
+  course_id,
+  installation_status: [] as number[],
+  payment_way: "manual",
+};
 
     const res = await fetch('http://127.0.0.1:8000/payments/', {
       method: 'POST',
