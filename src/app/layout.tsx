@@ -2,14 +2,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Script from "next/script";
-import { Suspense } from "react";
+
 
 import Navigation from "@/components/sections/navigation";
 import Footer from "@/components/sections/footer";
 
 // ⛳️ Client component: ensure this file has "use client" at top
 // of ../visual-edits/VisualEditsMessenger.tsx
-import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
+
 
 export const metadata: Metadata = {
   title: "Skill Ctaft ",
@@ -73,9 +73,7 @@ export default function RootLayout({
         />
 
         {/* Client component safely rendered inside Suspense */}
-        <Suspense fallback={null}>
-          <VisualEditsMessenger />
-        </Suspense>
+      
       </body>
     </html>
   );
