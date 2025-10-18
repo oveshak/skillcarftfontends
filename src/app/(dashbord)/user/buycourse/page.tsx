@@ -153,7 +153,7 @@ export default function EnrolledCoursesOnly() {
             {!loading && !error && (
               <div className="space-y-3 mb-4">
                 {visibleCourses.map((c) => {
-                  const href = c.slug ? `/courses/${c.slug}` : `/courses/id/${c.id}`;
+                  const href = c.slug ? `/user/ourcourse/${c.slug}` : `/user/ourcourse/id/${c.id}`;
                   return (
                     <Link
                       key={c.id}

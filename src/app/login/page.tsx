@@ -274,10 +274,8 @@ export default function LoginSection() {
   try {
     await loginUser(email, password);        // -> tokens saved to localStorage
     setIsSubmitting(false);
-
-    // 🔁 Immediately update UI & navigate
-    router.replace("/");                     // or "/dashboard"
-    router.refresh();
+console.log("hellp")
+   
 
     // (Optional) toast/alert AFTER navigation (non-blocking):
     // setTimeout(() => toast.success("লগইন সফল হয়েছে!"), 100);

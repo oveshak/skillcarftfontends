@@ -1,6 +1,4 @@
-// lib/api.ts
 import axios from "axios";
-import {jwtDecode} from "jwt-decode";
 
 // 🔹 Backend base URL (env থাকলে সেটি, না থাকলে local)
 export const API_BASE =
@@ -19,22 +17,29 @@ api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("access_token");
     if (token) {
-      config.headers = config.headers || {};
-      (config.headers as any).Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
   }
   return config;
 });
 
-// ---------- Types ----------
-export type LoginResponse = { access: string; refresh: string; user?: any };
+// 🔹 Token type
+type LoginResponse = { access: string; refresh: string; user?: any };
 
-// ---------- TOKEN HANDLERS ----------
+// ---------------------- TOKEN HANDLERS ----------------------
+
+// export function saveTokens(tokens: LoginResponse) {
+//   if (typeof window === "undefined") return;
+//   localStorage.setItem("access_token", tokens.access);
+//   localStorage.setItem("refresh_token", tokens.refresh);
+//   if (tokens.user) localStorage.setItem("user", JSON.stringify(tokens.user));
+// }
 export function saveTokens(tokens: LoginResponse) {
   if (typeof window === "undefined") return;
   localStorage.setItem("access_token", tokens.access);
   localStorage.setItem("refresh_token", tokens.refresh);
   if (tokens.user) localStorage.setItem("user", JSON.stringify(tokens.user));
+
   // 🔔 notify same-tab listeners instantly
   window.dispatchEvent(new Event("auth:changed"));
 }
@@ -47,14 +52,25 @@ export function getTokens() {
   };
 }
 
+// export function clearTokens() {
+//   if (typeof window === "undefined") return;
+//   localStorage.removeItem("access_token");
+//   localStorage.removeItem("refresh_token");
+//   localStorage.removeItem("user");
+// }
+
+// 🔹 Check login state
+
 export function clearTokens() {
   if (typeof window === "undefined") return;
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
   localStorage.removeItem("user");
+
   // 🔔 notify same-tab listeners instantly
   window.dispatchEvent(new Event("auth:changed"));
 }
+
 
 export function isLoggedIn(): boolean {
   if (typeof window === "undefined") return false;
@@ -62,7 +78,9 @@ export function isLoggedIn(): boolean {
   return !!access;
 }
 
-// ---------- Auth APIs ----------
+// ---------------------- API CALLS ----------------------
+
+// 🔹 Login API
 export async function loginUser(
   email: string,
   password: string
@@ -72,48 +90,43 @@ export async function loginUser(
   return res.data;
 }
 
+// 🔹 Register API
 export async function registerUser(payload: Record<string, any>) {
   const res = await api.post("/users/", payload);
   return res.data;
 }
 
+// 🔹 Logout API (local clear)
 export function logoutUser() {
   clearTokens();
   if (typeof window !== "undefined") {
+    // optional redirect
     window.location.href = "/login";
   }
 }
-
-// ---------- Safer user id via jwt-decode ----------
-type JwtBasicPayload = {
-  user_id?: number | string;
-  id?: number | string;
-  sub?: number | string;
-  [k: string]: unknown;
-};
-
 export function getCurrentUserId(): number {
   try {
-    // (1) Try saved user object first
-    const raw = typeof window !== "undefined" ? localStorage.getItem("user") : null;
+    // 1) try from saved user object
+    const raw = localStorage.getItem('user');
     if (raw) {
       const u = JSON.parse(raw);
       const idFromUser = Number(u?.id ?? u?.user?.id);
       if (Number.isFinite(idFromUser) && idFromUser > 0) return idFromUser;
     }
 
-    // (2) Fallback: decode access token (JWT) using jwt-decode
-    const token =
-      (typeof window !== "undefined" && localStorage.getItem("access_token")) ||
-      (typeof window !== "undefined" && sessionStorage.getItem("access_token"));
-
-    if (token) {
-      const payload = jwtDecode<JwtBasicPayload>(token);
-      const idFromJwt = Number(payload?.user_id ?? payload?.id ?? payload?.sub);
+    // 2) fallback: decode access token (JWT)
+    const token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+    if (token && token.split('.').length === 3) {
+      const payloadBase64 = token.split('.')[1]
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+      const payloadJson = JSON.parse(decodeURIComponent(escape(atob(payloadBase64))));
+      // সাধারণত JWT payload-এ এগুলোর এক/একাধিক থাকে: user_id, id, sub
+      const idFromJwt = Number(payloadJson?.user_id ?? payloadJson?.id ?? payloadJson?.sub);
       if (Number.isFinite(idFromJwt) && idFromJwt > 0) return idFromJwt;
     }
   } catch {
     // ignore
   }
-  return 0;
+  return 0; // না পেলে 0
 }

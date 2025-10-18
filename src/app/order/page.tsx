@@ -243,8 +243,10 @@ const handlePay = async () => {
       transaction_id: '',                  // গেটওয়ে থেকে পেলে আপডেট করবেন
       payment_method: PAYMENT_METHOD_MAP[paymentMethod], // ✅ enum ঠিক
       course_id,
-      user_id,                             // ✅ এখন 0 নয়
+                                  // ✅ এখন 0 নয়
       installation_status: [] as number[],
+      number:"01794003055",
+      payment_way: "manual",
     };
 
     const res = await fetch('http://127.0.0.1:8000/payments/', {
@@ -257,7 +259,10 @@ const handlePay = async () => {
     });
 console.log(res)
     const data = await res.json();
-    console.log(data)
+    if (res.ok) {
+      window.location.href = "/user/dashboard";
+      return;
+    }
     if (!res.ok) {
       // backend যে ফরম্যাট দেয় সেটা দেখান
       throw new Error(data?.error || data?.detail || data?.message || 'পেমেন্ট ইনিশিয়ালাইজ করতে সমস্যা হয়েছে।');
