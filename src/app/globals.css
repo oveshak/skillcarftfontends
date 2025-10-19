@@ -275,3 +275,17 @@ aside {
     @apply bg-background text-foreground;
   }
 }
+
+.scrollbar-invisible {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* smooth on iOS */
+  }
+  .scrollbar-invisible::-webkit-scrollbar { /* Chrome/Safari/Edge (Blink/WebKit) */
+    width: 0px;
+    height: 0px;
+    background: transparent;
+  }
+  .scrollbar-invisible {
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* Old IE/Edge */
+  }

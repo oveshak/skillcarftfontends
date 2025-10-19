@@ -1,8 +1,9 @@
 import axios from "axios";
+import { url } from "./api/baseurl";
 
 // 🔹 Backend base URL (env থাকলে সেটি, না থাকলে local)
 export const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8000";
+  process.env.NEXT_PUBLIC_API_BASE || `${url}`;
 
 // 🔹 Axios instance তৈরি
 export const api = axios.create({

@@ -6,7 +6,9 @@ import { useParams } from 'next/navigation';
 import { CourseContent } from '@/type/course';
 import { Course } from '@/lib/api/course/CoursesFetcher';
 import { useCourseData } from '@/lib/api/course/singleCourse';
-
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { url } from '@/lib/api/baseurl';
 // ---------- Local view models ----------
 type LessonKind = 'video' | 'pdf' | 'text' | 'quiz' | 'unknown';
 
@@ -188,8 +190,38 @@ function flattenCourse(nc: NormalizedCourse): ViewItem[] {
   return out;
 }
 
+// ===== NEW: build quiz from mcq_details (A/B/C/D → index) =====
+function buildQuizFromMcqDetails(content: CourseContent): QuizQ[] {
+  const list = (content as any)?.mcq_details;
+  if (!Array.isArray(list) || !list.length) return [];
+  const letterToIndex: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 };
+
+  return list.map((q: any, idx: number) => {
+    const options: string[] = [
+      q?.option_a ?? '',
+      q?.option_b ?? '',
+      q?.option_c ?? '',
+      q?.option_d ?? ''
+    ].filter((x) => typeof x === 'string');
+
+    const correctIndex =
+      typeof q?.right_answer === 'string'
+        ? letterToIndex[(q.right_answer || '').trim().toUpperCase()] ?? -1
+        : -1;
+
+    return {
+      id: String(q?.id ?? `q${idx + 1}`),
+      question: q?.question ?? `Question ${idx + 1}`,
+      options,
+      correctIndex,
+    };
+  });
+}
+
 export default function Page() {
   const { slug } = useParams<{ slug: string }>();
+  const params = useSearchParams();
+  const enrollId = params.get('id'); 
   const { course, loading, error } = useCourseData(slug) as {
     course: Course | AnyObj | null;
     loading: boolean;
@@ -216,17 +248,10 @@ export default function Page() {
 
   const [current, setCurrent] = useState<ViewItem | null>(null);
 
-  // quiz state
-  const quizQuestions: QuizQ[] = useMemo(() => {
-    if (!current || current.kind !== 'quiz' || !ncourse) return [];
-    const ms = (ncourse.milestones || []).find((m: AnyObj) => m.id === current.mid);
-    const mod = (ms?.modules || []).find((mm: AnyObj) => mm.id === current.moid);
-    const cc = (mod?.contents || []).find((c: AnyObj) => c.id === current.cid);
-    if (!cc) return [];
-    return tryParseQuiz(cc as CourseContent);
-  }, [current, ncourse]);
-
+  // ===== NEW: quiz state & results
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
+  const [showResult, setShowResult] = useState(false);
+  const [resultByQ, setResultByQ] = useState<Record<string, { isCorrect: boolean; correctIndex: number }>>({});
 
   // initialize open states and current once course loads
   useEffect(() => {
@@ -246,7 +271,11 @@ export default function Page() {
 
   const onPick = useCallback((vi: ViewItem) => {
     setCurrent(vi);
-    if (vi.kind === 'quiz') setAnswers({});
+    if (vi.kind === 'quiz') {
+      setAnswers({});
+      setShowResult(false);
+      setResultByQ({});
+    }
   }, []);
 
   const goPrev = () => {
@@ -261,17 +290,94 @@ export default function Page() {
     if (idx >= 0 && idx < items.length - 1) onPick(items[idx + 1]);
   };
 
-  const finishQuiz = () => {
-    const total = quizQuestions.length;
-    let score = 0;
-    quizQuestions.forEach(q => {
-      if (answers[q.id] === q.correctIndex) score++;
-    });
-    alert(`কুইজ শেষ! স্কোর: ${score}/${total}`);
-  };
-
   // helper: source URL নাকি JSON—এটা বুঝতে
   const isProbablyUrl = (s?: string | null) => !!safeUrl(s)?.match(/^https?:\/\//i);
+
+  // ===== NEW: quizQuestions priority => mcq_details > JSON > []
+  const quizQuestions: QuizQ[] = useMemo(() => {
+    if (!current || current.kind !== 'quiz' || !ncourse) return [];
+    const ms = (ncourse.milestones || []).find((m: AnyObj) => m.id === current.mid);
+    const mod = (ms?.modules || []).find((mm: AnyObj) => mm.id === current.moid);
+    const cc = (mod?.contents || []).find((c: AnyObj) => c.id === current.cid) as CourseContent | undefined;
+    if (!cc) return [];
+
+    const fromDetails = buildQuizFromMcqDetails(cc);
+    if (fromDetails.length) return fromDetails;
+
+    const fromJson = tryParseQuiz(cc);
+    if (fromJson.length) return fromJson;
+
+    return [];
+  }, [current, ncourse]);
+
+  // ===== NEW: enrolled PATCH endpoint (SET YOUR REAL ID)
+  const ENROLL_PATCH_URL = `${url}/${enrollId}/`;
+
+  // ===== NEW: finishQuiz with result map + PATCH
+const finishQuiz = async () => {
+  const total = quizQuestions.length;
+  let score = 0;
+  const rbq: Record<string, { isCorrect: boolean; correctIndex: number }> = {};
+
+  quizQuestions.forEach(q => {
+    const chosen = answers[q.id];
+    const ok = typeof chosen === 'number' && chosen === q.correctIndex;
+    if (ok) score++;
+    rbq[q.id] = { isCorrect: !!ok, correctIndex: q.correctIndex };
+  });
+
+  setResultByQ(rbq);
+  setShowResult(true);
+
+  try {
+    // ⚠️ Access token localStorage থেকে নাও
+    const token =
+      (typeof window !== 'undefined' && localStorage.getItem('access_token')) || '';
+
+    const res = await fetch(ENROLL_PATCH_URL, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({
+        mcqcontents: current?.cid,   // content id
+        mark: score,                 // মোট correct সংখ্যা
+      }),
+    });
+
+    // 🔹 Response status check
+    if (!res.ok) {
+      const errText = await res.text().catch(() => '');
+      // Try to parse error if it's JSON
+      let message = '';
+      try {
+        const json = JSON.parse(errText);
+        message =
+          json?.detail ||
+          json?.error ||
+          json?.message ||
+          JSON.stringify(json, null, 2);
+      } catch {
+        message = errText || res.statusText;
+      }
+
+      alert(`❌ API Error (${res.status}): ${message || 'Unknown error'}`);
+      return;
+    }
+
+    // 🔹 Optional success confirmation
+    const data = await res.json().catch(() => ({}));
+    alert(`✅ Quiz score submitted successfully! `);
+  } catch (e: any) {
+    // 🔹 Network or unexpected error
+    alert(` ${e?.message || e}`);
+  }
+
+  // 🔹 শেষে সব সময় score দেখাবে
+  alert(`কুইজ শেষ! স্কোর: ${score}/${total}`);
+};
+
 
   // --------------- Render ---------------
   if (loading) {
@@ -315,9 +421,9 @@ export default function Page() {
       <div className="min-h-screen container py-10 px-3 lg:px-1">
         {/* Header */}
         <header className="pb-6 pt-3 flex items-center gap-3">
-          <button className="p-1 text-gray-950 rounded" aria-label="Back">
+          <Link href="/user/buycourse" className="p-1 text-gray-950 rounded" aria-label="Back">
             <svg stroke="currentColor" fill="currentColor" viewBox="0 0 448 512" className="cursor-pointer text-[#111827] text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"></path></svg>
-          </button>
+          </Link>
           <h1 className="text-lg font-semibold text-gray-900">
             {headerTitle}
           </h1>
@@ -326,7 +432,13 @@ export default function Page() {
         <div className="flex flex-col lg:flex-row gap-4">
           {/* Main */}
           <div className="flex-1 lg:w-2/3">
-            <div className="aspect-video relative bg-black/5 rounded-lg overflow-hidden">
+          <div
+  className={
+    current?.kind === 'quiz'
+      ? 'relative rounded-lg bg-white overflow-y-auto' // 👉 quiz: no aspect-video, no overflow-hidden
+      : 'aspect-video relative bg-black/5 rounded-lg overflow-hidden' // video/pdf/text আগের মতো
+  }
+>
               {!current ? (
                 <div className="w-full h-full grid place-items-center text-gray-500">
                   কোনো কন্টেন্ট নেই
@@ -351,7 +463,7 @@ export default function Page() {
                     <p className="mb-3 text-gray-800 font-medium">{current.contentTitle}</p>
                     {isNonEmpty(current.source) ? (
                       <a
-                        href={current.source as string}  // কখনোই "" যাবে না; safeUrl আগেই হ্যান্ডেল করেছে
+                        href={current.source as string}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -376,54 +488,67 @@ export default function Page() {
                   )}
                 </div>
               ) : current.kind === 'quiz' ? (
-                // ✅ quiz: যদি source এ URL থাকে → iframe embed
-                isProbablyUrl(current.source) ? (
-                  <iframe
-                    src={current.source as string}
-                    className="w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title={current.contentTitle}
-                  />
-                ) : (
-                  // না থাকলে JSON কুইজ UI
-                  <div className="overflow-y-auto inset-0 flex items-stretch px-3 scrollbar-hide" style={{ maxHeight: 'calc(60vh - 0px)' }}>
-                    <style jsx>{`
-                      .scrollbar-hide::-webkit-scrollbar { display: none; }
-                      .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-                    `}</style>
-                    <div className="max-w-3xl w-full h-full overflow-y-auto py-4">
-                      {quizQuestions.length ? (
-                        <>
-                          {quizQuestions.map((q, idx) => {
-                            const chosen = answers[q.id];
-                            return (
-                              <div key={q.id} className="mb-8">
-                                <h2 className="text-base md:text-lg text-gray-950 font-semibold mb-3 leading-snug">
-                                  {idx + 1}. {q.question}
-                                </h2>
-                                <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
-                                  {q.options.map((opt, oi) => (
-                                    <button
-                                      key={oi}
-                                      onClick={() =>
-                                        setAnswers(prev => ({ ...prev, [q.id]: oi }))
-                                      }
-                                      className={`w-full text-left px-4 py-3 rounded-lg border whitespace-normal break-words ${
-                                        chosen === oi
-                                          ? 'bg-gray-900 text-gray-50 border-gray-900'
-                                          : 'bg-white border-gray-300 text-black'
-                                      }`}
-                                    >
-                                      {String.fromCharCode(65 + oi)}. {opt}
-                                    </button>
-                                  ))}
-                                </div>
-                              </div>
-                            );
-                          })}
+                // ✅ Prefer our MCQ UI if we parsed questions (mcq_details/JSON)
+                quizQuestions.length ? (
+                  <div className="scrollbar-invisible inset-0 flex items-stretch px-3"
+ style={{ height: 'calc(100vh - 330px)', WebkitOverflowScrolling: 'touch' }}>
+                    
+                    <div className=" w-full h-full overflow-y-auto py-4">
+                      {quizQuestions.map((q, idx) => {
+                        const chosen = answers[q.id];
+                        const show = showResult && resultByQ[q.id];
+                        const isCorrect = show ? resultByQ[q.id].isCorrect : false;
+                        const correctIndex = show ? resultByQ[q.id].correctIndex : -1;
 
-                          <div className="flex items-center gap-3 mt-6 pb-6">
+                        return (
+                          <div key={q.id} className="mb-8">
+                            <h2 className="text-base md:text-lg text-gray-950 font-semibold mb-3 leading-snug">
+                              {idx + 1}. {q.question}
+                            </h2>
+                            <div className="grid grid-cols-1 lg:grid-cols-4 gap-3">
+                              {q.options.map((opt, oi) => {
+                                const active = chosen === oi;
+                                const correct = show && oi === correctIndex;
+                                const wrongChosen = show && active && !isCorrect;
+
+                                const base = `w-full text-left px-4 py-3 rounded-lg border whitespace-normal break-words`;
+                                const normal = active ? 'bg-gray-900 text-gray-50 border-gray-900' : 'bg-white border-gray-300 text-black';
+                                const afterSubmit =
+                                  correct ? ' border-green-600'
+                                  : wrongChosen ? ' border-red-600'
+                                  : '';
+
+                                return (
+                                  <button
+                                    key={oi}
+                                    onClick={() => !show && setAnswers(prev => ({ ...prev, [q.id]: oi }))}
+                                   
+                                    className={`${base} ${normal}${afterSubmit}`}
+                                  >
+                                    {String.fromCharCode(65 + oi)}. {opt}
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            {show && (
+                              <div className="mt-2 text-sm">
+                                {isCorrect ? (
+                                  <span className="text-green-700">Correct ✅</span>
+                                ) : (
+                                  <span className="text-red-700">
+                                    Incorrect ❌ — Correct: {correctIndex >= 0 ? String.fromCharCode(65 + correctIndex) : '—'}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+
+                      <div className="flex items-center justify-center gap-3 mt-6 pb-6">
+                        {!showResult ? (
+                          <>
                             <button
                               onClick={finishQuiz}
                               className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
@@ -432,17 +557,35 @@ export default function Page() {
                             </button>
                             <button
                               onClick={() => setAnswers({})}
-                              className="px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
+                              className="px-6 py-2.5 border text-gray-700 border-gray-500 rounded-lg hover:bg-gray-50"
                             >
                               রিসেট
                             </button>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="text-gray-600">এই কন্টেন্টে কুইজ ডেটা পাওয়া যায়নি।</div>
-                      )}
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => { setShowResult(false); setAnswers({}); setResultByQ({}); }}
+                            className="px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50"
+                          >
+                            আবার দিন
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
+                ) : (
+                  // No parsed quiz → fallback to iframe if URL given
+                  isProbablyUrl(current.source) ? (
+                    <iframe
+                      src={current.source as string}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title={current.contentTitle}
+                    />
+                  ) : (
+                    <div className="text-gray-600 w-full h-full grid place-items-center">এই কন্টেন্টে কুইজ ডেটা পাওয়া যায়নি।</div>
+                  )
                 )
               ) : (
                 <div className="w-full h-full grid place-items-center text-gray-600">Unsupported content</div>

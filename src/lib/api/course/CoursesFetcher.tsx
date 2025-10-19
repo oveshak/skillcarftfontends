@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
+import { url } from "../baseurl";
 
 /** API raw type */
 export type ApiCourse = {
@@ -69,7 +70,7 @@ export default function CoursesFetcher({ children }: { children: RenderProps }) 
       setLoading(true);
       setErr(null);
       try {
-        const base = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8000";
+        const base = process.env.NEXT_PUBLIC_API_BASE || `${url}`;
         const res = await fetch(`${base}/courses?depth=3`, { cache: "no-store" });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
@@ -171,9 +172,9 @@ export default function CoursesFetcher({ children }: { children: RenderProps }) 
 // src/lib/courseApi.ts
 // src/lib/courseApi.ts
 export async function fetchCourseTokenBySlug(slug: string) {
-  const url = `http://127.0.0.1:8000/courses/${encodeURIComponent(slug)}?depth=3`;
+  const urls = `${url}/courses/${encodeURIComponent(slug)}?depth=3`;
 
-  const res = await fetch(url, {
+  const res = await fetch(urls, {
     // dev-এ স্টেল ডাটা আটকাতে
     cache: "no-store",
     // CORS থাকলে cred দরকার হলে:
