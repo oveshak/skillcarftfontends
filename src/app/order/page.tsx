@@ -4,6 +4,7 @@ import { useEffect, useCallback, useMemo, useState } from 'react';
 import { Check, ShoppingCart, CreditCard, Phone, Copy } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { getCurrentUserId, isLoggedIn, loginUser } from '@/lib/api';
+import { url } from '@/lib/api/baseurl';
 
 type Step = 'confirmation' | 'details' | 'payment';
 type PaymentMethod = 'bkash' | 'card';
@@ -247,7 +248,7 @@ const handlePay = async () => {
   payment_way: "manual",
 };
 
-    const res = await fetch('http://127.0.0.1:8000/payments/', {
+    const res = await fetch(`${url}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
