@@ -6,17 +6,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PlayCircle, X } from "lucide-react";
+import { X } from "lucide-react";
 
-// ====== Types (তোমার API শেপ অনুযায়ী মিনিমাল) ======
+// ====== Types ======
 type ContentItem = {
   id: number;
   title: string;
   status?: boolean;
   is_deleted?: boolean;
   content_type?: "video" | string;
-  preview?: boolean;           // free?
-  source?: string | null;      // video url
+  preview?: boolean;
+  source?: string | null;
 };
 type ModuleApi = {
   id: number;
@@ -33,7 +33,7 @@ type MilestoneApi = {
   modules?: ModuleApi[];
 };
 
-// ====== Local UI types (unchanged with your old component) ======
+// ====== Local UI types ======
 interface Lesson {
   title: string;
   isFree: boolean;
@@ -44,31 +44,6 @@ interface Module {
   title: string;
   lessons: Lesson[];
 }
-
-// ====== Fallback (তোমার পুরনো স্ট্যাটিক লিস্ট) ======
-const fallbackModules: Module[] = [
-  {
-    id: "module-1",
-    title: "Email Marketing এর দুনিয়ায় স্বাগতম",
-    lessons: [
-      {
-        title: "Email Marketing করে ফ্রিল্যান্সিং কোর্স বৃত্তান্ত",
-        isFree: true,
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      },
-      {
-        title:
-          "ফ্রিল্যান্সিং কী? Email Marketing জগতে ফ্রিল্যান্সিং এর সম্ভাবনা কেমন?",
-        isFree: true,
-        videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      },
-    ],
-  },
-  { id: "module-2", title: "Email Marketing করে Freelancing | Exclusive Support Group", lessons: [] },
-  { id: "module-3", title: "যেভাবে Email Marketing করে ফ্রিল্যান্সিং করা যায়", lessons: [] },
-  { id: "module-4", title: "Email Marketing এর মৌলিক সব বিষয়", lessons: [] },
-  { id: "module-5", title: "Mailchimp দিয়ে প্রফেশনাল Email Marketing", lessons: [] },
-];
 
 // ====== YouTube helpers ======
 function getYouTubeId(url?: string | null) {
@@ -89,7 +64,7 @@ function toEmbed(url?: string | null) {
   return id ? `https://www.youtube.com/embed/${id}` : url || "";
 }
 
-// ====== Normalizer: milestones → Module[] ======
+// ====== Normalizer ======
 function buildModulesFromMilestones(milestones?: MilestoneApi[] | null): Module[] {
   if (!milestones?.length) return [];
   const modules: Module[] = [];
@@ -101,13 +76,14 @@ function buildModulesFromMilestones(milestones?: MilestoneApi[] | null): Module[
 
       const lessons: Lesson[] =
         (m.contents ?? [])
-          .filter(c =>
-            (c.title || "").trim().length > 0 &&
-            c.is_deleted !== true &&
-            c.status !== false &&
-            (c.content_type ? c.content_type.toLowerCase() === "video" : true)
+          .filter(
+            (c) =>
+              (c.title || "").trim().length > 0 &&
+              c.is_deleted !== true &&
+              c.status !== false &&
+              (c.content_type ? c.content_type.toLowerCase() === "video" : true)
           )
-          .map(c => ({
+          .map((c) => ({
             title: c.title,
             isFree: !!c.preview,
             videoUrl: c.source ? toEmbed(c.source) : undefined,
@@ -123,15 +99,30 @@ function buildModulesFromMilestones(milestones?: MilestoneApi[] | null): Module[
   return modules;
 }
 
-// ====== Component (DOM/Classes UNCHANGED) ======
+// ====== Skeleton Loader ======
+function SkeletonLoader() {
+  return (
+    <div className="animate-pulse space-y-4 border border-gray-200 rounded-lg p-4">
+      <div className="h-6 w-2/3 bg-gray-200 rounded"></div>
+      <div className="h-4 w-full bg-gray-200 rounded"></div>
+      <div className="h-4 w-5/6 bg-gray-200 rounded"></div>
+      <div className="h-4 w-3/4 bg-gray-200 rounded"></div>
+      <div className="h-4 w-2/3 bg-gray-200 rounded"></div>
+    </div>
+  );
+}
+
+// ====== Component ======
 export default function ContentPreview({
   milestones,
+  loading = false,
 }: {
   milestones?: MilestoneApi[] | null;
+  loading?: boolean;
 }) {
   const modules: Module[] = useMemo(() => {
     const fromApi = buildModulesFromMilestones(milestones);
-    return fromApi.length ? fromApi : fallbackModules;
+    return fromApi; // ❌ no fallback fake data
   }, [milestones]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -150,17 +141,30 @@ export default function ContentPreview({
     setCurrentVideoTitle("");
   };
 
-  return (
-    <section className="bg-white py-10">
-      <div className="">
+  // 🧠 Show skeleton if loading or no data
+  if (loading || !modules.length) {
+    return (
+      <section className="bg-white py-10">
         <h2 className="text-gray-900 text-xl font-bold text-left md:text-2xl pb-7">
           কন্টেন্ট প্রিভিউ
         </h2>
+        <SkeletonLoader />
+      </section>
+    );
+  }
+
+  return (
+    <section className="bg-white py-10">
+      <div>
+        <h2 className="text-gray-900 text-xl font-bold text-left md:text-2xl pb-7">
+          কন্টেন্ট প্রিভিউ
+        </h2>
+
         <div className="border border-gray-200 rounded-lg overflow-hidden">
           <Accordion
             type="single"
             collapsible
-            defaultValue={modules[0]?.id || "module-1"}
+            defaultValue={modules[0]?.id}
             className="w-full"
           >
             {modules.map((module, moduleIndex) => (
@@ -186,7 +190,6 @@ export default function ContentPreview({
                             className="flex items-center justify-between gap-2"
                           >
                             <div className="flex items-center gap-3 text-gray-700">
-                              {/* keeping same icon/structure as your original design */}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -200,7 +203,9 @@ export default function ContentPreview({
                                 {lesson.title}
                               </span>
                             </div>
-                            {lesson.isFree && (
+
+                            {/* ✅ Only show “ফ্রি দেখুন” for the first lesson of first module */}
+                            {moduleIndex === 0 && lessonIndex === 0 && (
                               <button
                                 onClick={() =>
                                   openModal(lesson.videoUrl || "", lesson.title)
@@ -222,17 +227,16 @@ export default function ContentPreview({
         </div>
       </div>
 
-      {/* Video Modal (unchanged layout) */}
+      {/* Video Modal */}
       {isModalOpen && (
         <div
-          className="fixed inset-0  bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
           onClick={closeModal}
         >
           <div
             className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
               <h3 className="text-lg font-semibold text-gray-900 truncate pr-4">
                 {currentVideoTitle}
@@ -245,7 +249,6 @@ export default function ContentPreview({
               </button>
             </div>
 
-            {/* Video Container */}
             <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
               <iframe
                 src={currentVideoUrl}

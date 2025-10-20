@@ -247,6 +247,7 @@ const Navigation = () => {
     
     { label: "My Order", href: "/user/order", icon: <WalletCards  className="h-4 w-4" /> },
     { label: "My Certificate", href: "/user/certificate", icon: <ShieldCheck   className="h-4 w-4" /> }, 
+    { label: "My Result", href: "/user/result", icon: <ShieldCheck   className="h-4 w-4" /> }, 
     { label: "Profile", href: "/user/profile", icon: <User className="h-4 w-4" /> },
    
   ];

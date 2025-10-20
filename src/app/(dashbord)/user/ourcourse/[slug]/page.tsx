@@ -49,7 +49,7 @@ interface NormalizedCourse {
 // ---------- small helpers (logic only; UI unchanged) ----------
 const isNonEmpty = (v?: string | null) => !!(v && String(v).trim().length > 0);
 
-/** href/src-এ খালি স্ট্রিং যাতে না যায় */
+/** href/src-এ খালি স্ট্রিং যাতে না যায় */
 function safeUrl(u?: string | null): string | null {
   if (!u) return null;
   const t = String(u).trim();
@@ -252,6 +252,7 @@ export default function Page() {
   const [answers, setAnswers] = useState<Record<string, number | null>>({});
   const [showResult, setShowResult] = useState(false);
   const [resultByQ, setResultByQ] = useState<Record<string, { isCorrect: boolean; correctIndex: number }>>({});
+  const [showDescription, setShowDescription] = useState(false);
 
   // initialize open states and current once course loads
   useEffect(() => {
@@ -374,7 +375,7 @@ const finishQuiz = async () => {
     alert(` ${e?.message || e}`);
   }
 
-  // 🔹 শেষে সব সময় score দেখাবে
+  // 🔹 শেষে সব সময় score দেখাবে
   alert(`কুইজ শেষ! স্কোর: ${score}/${total}`);
 };
 
@@ -614,6 +615,31 @@ const finishQuiz = async () => {
                 {current?.milestoneTitle} • {current?.moduleTitle}
               </p>
             </div>
+
+            {/* Description Section with Toggle */}
+            {current && isNonEmpty(current.description) && (
+              <div className="bg-white border-b border-gray-200">
+                <button
+                  onClick={() => setShowDescription(!showDescription)}
+                  className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition-colors"
+                >
+                  <span className="text-sm font-medium text-gray-900">বিবরণ</span>
+                  {showDescription ? (
+                    <ChevronUp className="w-5 h-5 text-gray-600" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-gray-600" />
+                  )}
+                </button>
+                {showDescription && (
+                  <div className="px-4 pb-4">
+                    <div
+                      className="prose prose-sm max-w-none text-gray-700"
+                      dangerouslySetInnerHTML={{ __html: current.description as string }}
+                    />
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Controls */}
             <div className="bottom-0 inset-x-0 z-20 flex justify-center items-center gap-2 p-2 sm:p-3">

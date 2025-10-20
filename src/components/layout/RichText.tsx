@@ -30,7 +30,7 @@ export default function RichText({
   return (
     <div
       className={className}
-      // eslint-disable-next-line react/no-danger
+     
       dangerouslySetInnerHTML={{ __html: clean }}
     />
   );
