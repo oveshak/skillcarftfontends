@@ -222,6 +222,7 @@ import { useState, useEffect } from "react";
 import { loginUser } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import GuestGuard from "@/lib/hooks/isLogingNavigation/GuestGuard";
+import Link from "next/link";
 
 const slides = [
   {
@@ -324,6 +325,7 @@ console.log("hellp")
                   </div>
                 )}
               </div>
+             <p className="pb-5"> You have no accounts <Link href="/register">Register</Link></p>
 
               <Button
                 onClick={handleLogin}

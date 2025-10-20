@@ -248,7 +248,7 @@ const handlePay = async () => {
   payment_way: "manual",
 };
 
-    const res = await fetch(`${url}`, {
+    const res = await fetch(`${url}/payments/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

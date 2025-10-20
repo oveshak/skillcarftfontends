@@ -311,7 +311,7 @@ export default function Page() {
   }, [current, ncourse]);
 
   // ===== NEW: enrolled PATCH endpoint (SET YOUR REAL ID)
-  const ENROLL_PATCH_URL = `${url}/${enrollId}/`;
+  const ENROLL_PATCH_URL = `${url}/enrolled-courses/${enrollId}/`;
 
   // ===== NEW: finishQuiz with result map + PATCH
 const finishQuiz = async () => {
