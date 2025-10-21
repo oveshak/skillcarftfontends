@@ -228,11 +228,11 @@ export default function FaqSection({
             আরও কোন জিজ্ঞাসা আছে?
           </h3>
           <Link
-            href="tel:16910"
+            href="tel:01926-917452"
             className="inline-flex border-gray-400 border-dashed items-center gap-2 rounded-md border hover:border-primary  p-4 text-primary font-semibold  "
           >
             <Phone className="h-5 w-5" />
-            <span>কল করুন 16910 নম্বরে</span>
+            <span>কল করুন </span>
           </Link>
         </div>
       </div>

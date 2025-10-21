@@ -8,7 +8,7 @@ import RelatedCourses from "@/components/singlecoursepage/RelatedCourses";
 import FaqSection from "@/components/singlecoursepage/FaqSection";
 import RequirementsSection from "@/components/singlecoursepage/RequirementsSection";
 import CertificateSection from "@/components/singlecoursepage/CertificateSection";
-import ExclusiveFeatures from "@/components/singlecoursepage/ExclusiveFeatures";
+// import ExclusiveFeatures from "@/components/singlecoursepage/ExclusiveFeatures";
 import ContentPreview from "@/components/singlecoursepage/ContentPreview";
 import CourseInfoSidebar from "@/components/singlecoursepage/CourseInfoSidebar";
 import CourseDetails from "@/components/singlecoursepage/CourseDetails";
@@ -18,7 +18,7 @@ import HeroBanner from "@/components/singlecoursepage/HeroBanner";
 import InstructorSection from "@/components/singlecoursepage/InstructorSection";
 import { SectionNav } from "@/components/singlecoursepage/SectionNav";
 import { useCourseData } from "@/lib/api/course/singleCourse";
-import Testimonials from "@/components/sections/testimonials";
+// import Testimonials from "@/components/sections/testimonials";
 import { Course } from "@/type/course";
 
 
@@ -126,7 +126,7 @@ export default function IELTSCoursePage() {
             </div>
 
             <div id="features" className="scroll-mt-24 md:scroll-mt-28">
-              <ExclusiveFeatures feature={course?.course_exclusive_feature} loading={loading} />
+              {/* <ExclusiveFeatures feature={course?.course_exclusive_feature} loading={loading} /> */}
             </div>
 
             <div id="certificate" className="scroll-mt-24 md:scroll-mt-28">
@@ -134,7 +134,7 @@ export default function IELTSCoursePage() {
             </div>
 
             <div id="testimonials" className="scroll-mt-24 md:scroll-mt-28">
-              <Testimonials reviews={reviews} loading={loading}/>
+              {/* <Testimonials reviews={reviews} loading={loading}/> */}
             </div>
 
             <div id="requirements" className="scroll-mt-24 md:scroll-mt-28">

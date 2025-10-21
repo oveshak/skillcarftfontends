@@ -105,7 +105,7 @@ export default function CourseStructure({
         </div>
 
         {/* Guidebook block (UNCHANGED DOM & CLASSES) */}
-        <div className="grid grid-cols-1 items-center gap-8 rounded-lg bg-[#272727] p-6 text-white xl:grid-cols-2 md:gap-x-12 md:p-8">
+        {/* <div className="grid grid-cols-1 items-center gap-8 rounded-lg bg-[#272727] p-6 text-white xl:grid-cols-2 md:gap-x-12 md:p-8">
           <div className="flex  flex-col  items-start md:text-left">
             <div className="flex items-center gap-3 mb-4">
               <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#EA580C]">
@@ -134,7 +134,7 @@ export default function CourseStructure({
               priority
             />
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
