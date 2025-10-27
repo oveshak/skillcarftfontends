@@ -56,10 +56,10 @@ export default function SscHscCourses() {
                 <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/10">
                   <GraduationCap className="h-6 w-6 text-secondary" />
                 </div>
-                <p className="font-bold text-secondary">SSC & HSC</p>
+                <p className="font-bold text-secondary">প্রফেশনাল</p>
               </div>
               <h2 className="font-bengali text-3xl font-bold text-gray-700 sm:text-4xl">
-                SSC ও HSC শিক্ষার্থীদের জন্য
+              প্রফেশনাল মোটরসাইকেল রাইডারদের জন্য
               </h2>
             </div>
 

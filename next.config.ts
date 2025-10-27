@@ -49,6 +49,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.10minuteschool.com" },
       { protocol: "https", hostname: "slelguoygbfzlpylpxfs.supabase.co" },
        { protocol: "https", hostname: "skillscraftacademy.com" },
+       { protocol: "https", hostname: "skillscraftacademy.com" },
     ],
     formats: ["image/webp", "image/avif"],
   },

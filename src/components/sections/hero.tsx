@@ -128,13 +128,13 @@ const HeroSection = () => {
     <div className="bg-[#1a1b23] text-foreground py-10 bg-[url('https://cdn.10minuteschool.com/json/Background_Noise_1732776287934_1736059620396.png')]">
       <div className="px-2 md:container md:px-0 mx-auto">
         <div className="items-center justify-center hidden pb-10 md:flex h-[100px]">
-          <Image
+          {/* <Image
             alt="শেখার যাত্রা শুরু এখানেই"
             src="https://cdn.10minuteschool.com/images/Frame_2147223622%402x_%281%29_1732776618989.png"
             width={616}
             height={200}
             className="w-auto h-auto"
-          />
+          /> */} <h1> ক্যারিয়ারকে এগিয়ে নিন — সঠিক কোর্স বেছে নিন!!</h1>
         </div>
 
         <div className="flex flex-col gap-10 md:flex-row md:gap-6">

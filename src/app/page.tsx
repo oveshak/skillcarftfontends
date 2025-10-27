@@ -10,6 +10,7 @@ import Testimonials from '@/components/sections/testimonials';
 import FreeResources from '@/components/sections/free-resources';
 import SuccessStats from '@/components/sections/success-stats';
 import MobileAppSection from '@/components/sections/mobile-app';
+import LogoSlider from '@/components/sections/LogoSlider';
 
 
 export default function Home() {
@@ -19,10 +20,13 @@ export default function Home() {
       <HeroSection />
      
       <VideoSection />
+
+<LogoSlider/>
+
       <SscHscCourses />
-      <SkillsCourses />
-      <AdmissionCourses />
-      <JobPreparationSection />
+      {/* <SkillsCourses /> */}
+      {/* <AdmissionCourses /> */}
+      {/* <JobPreparationSection /> */}
       <Testimonials />
       {/* <FreeResources /> */}
       <SuccessStats />

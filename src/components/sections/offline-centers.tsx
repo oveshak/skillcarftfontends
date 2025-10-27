@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, Captions, MapPin } from "lucide-react";
 import Link from "next/link";
 
 const locations = [
-  { name: 'উত্তরা', href: 'https://www.google.com/maps/place/10+Minute+School+English+Centre+(Uttara)/@23.8645579,90.3963086,17z/data=!4m7!3m6!1s0x3755c5b9650f1f69:0x5e5b69cc4630435f!8m2!3d23.8645583!4d90.3988842!15sCj44dGggRmxvb3IsIE1pbGxlbm5pdW0gVG93ZXIsIEhvdXNlIDIsIFJvYWQgNywgU2VjdG9yIDMsIFV0dGFyYZIBEGVkdWNhdGlvbl9jZW50ZXLgAQA!16s%2Fg%2F11vr95pdw8?entry=tts' },
-  { name: 'পান্থপথ', href: 'https://maps.app.goo.gl/5S6zt16obZspNfA28?g_st=com.google.maps.preview.copy' },
-  { name: 'মিরপুর', href: 'https://www.google.com/maps/place/10+Minute+School+English+Centre+(Mirpur)/@23.8044657,90.3693722,15z/data=!4m6!3m5!1s0x3755c1ad1ad1b665:0x6bca269305be939d!8m2!3d23.8044657!4d90.3693722!16s%2Fg%2F11lnrxpzk8?entry=tts&g_ep=EgoyMDI0MDkxMS4wKgBIAVAD' },
-  { name: 'মগবাজার', href: 'https://www.google.com/maps/place/10+Minute+School+English+Centre+Moghbazar/@23.7490976,90.4048202,17z/data=!4m6!3m5!1s0x3755b9b9609f3105:0xa35b9e083d068494!8m2!3d23.7490979!4d90.4078299!16s%2Fg%2F11wqdj3dp1?entry=tts&g_ep=EgoyMDI0MTAyOS4wIPu8ASoASAFQAw%3D%3D' },
-  { name: 'চকবাজার, চট্টগ্রাম', href: 'https://maps.app.goo.gl/1krk3XZiwDQknqMb8' },
+  { name: 'Fleet Management			', href: '' },
+  { name: 'Workplace Safety', href: 'https://maps.app.goo.gl/5S6zt16obZspNfA28?g_st=com.google.maps.preview.copy' },
+  { name: 'Road Safety', href: 'https://www.google.com/maps/place/10+Minute+School+English+Centre+(Mirpur)/@23.8044657,90.3693722,15z/data=!4m6!3m5!1s0x3755c1ad1ad1b665:0x6bca269305be939d!8m2!3d23.8044657!4d90.3693722!16s%2Fg%2F11lnrxpzk8?entry=tts&g_ep=EgoyMDI0MDkxMS4wKgBIAVAD' },
+  { name: 'Health & Safety', href: 'https://www.google.com/maps/place/10+Minute+School+English+Centre+Moghbazar/@23.7490976,90.4048202,17z/data=!4m6!3m5!1s0x3755b9b9609f3105:0xa35b9e083d068494!8m2!3d23.7490979!4d90.4078299!16s%2Fg%2F11wqdj3dp1?entry=tts&g_ep=EgoyMDI0MTAyOS4wIPu8ASoASAFQAw%3D%3D' },
+  // { name: 'চকবাজার, চট্টগ্রাম', href: 'https://maps.app.goo.gl/1krk3XZiwDQknqMb8' },
 ];
 
 const courseData = [
@@ -69,9 +69,9 @@ const OfflineCenters = () => {
                     <h2 className="absolute text-destructive border border-destructive inline-block rounded-full px-[20px] py-[6px] bg-[#441818] left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 text-sm font-medium whitespace-nowrap">
                         অফলাইন সেন্টার
                     </h2>
-                    <h3 className="text-xl md:text-2xl w-full max-w-[470px] mb-4 mx-auto font-bold leading-tight">
+                    {/* <h3 className="text-xl md:text-2xl w-full max-w-[470px] mb-4 mx-auto font-bold leading-tight">
                         অনলাইনে ৫ লক্ষাধিক শিক্ষার্থীকে ইংরেজি শিখিয়ে আমরা এখন অফলাইনে
-                    </h3>
+                    </h3> */}
 
                     <div className="overflow-x-auto scrollbar-hide snap-x snap-mandatory">
                         <ul className="flex items-center gap-2 mb-6 flex-nowrap md:justify-center">
@@ -84,7 +84,7 @@ const OfflineCenters = () => {
                                         className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg bg-white/5 snap-center hover:bg-white/10 transition-colors"
                                     >
                                         <span className="inline-block p-2 rounded-full bg-white/5">
-                                            <MapPin className="h-4 w-4" />
+                                            <Captions className="h-4 w-4" />
                                         </span>
                                         <span className="whitespace-nowrap">{location.name}</span>
                                     </Link>
@@ -93,7 +93,7 @@ const OfflineCenters = () => {
                         </ul>
                     </div>
                     
-                    <div className="relative flex flex-nowrap gap-4 overflow-x-auto scroll-smooth  md:gap-6">
+                    {/* <div className="relative flex flex-nowrap gap-4 overflow-x-auto scroll-smooth  md:gap-6">
                         {courseData.map((course) => (
 
                              <Link
@@ -121,7 +121,7 @@ const OfflineCenters = () => {
           </Link>
                             
                         ))}
-                    </div>
+                    </div> */}
 
                     <div className="flex  pt-7 flex-row items-center justify-center gap-4">
                        <Link
