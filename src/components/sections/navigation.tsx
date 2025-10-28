@@ -447,10 +447,10 @@ const Navigation = () => {
 
             <Link
               className="hidden items-center gap-1 text-primary md:flex hover:opacity-80 transition-opacity"
-              href="tel:16910"
+              href="tel:+8801926917452"
             >
               <Phone className="h-4 w-4" />
-              <span className="inline-block font-sans">16910</span>
+              {/* <span className="inline-block font-sans">16910</span> */}
             </Link>
             <Link
               className="flex items-center gap-1 text-primary md:hidden hover:opacity-80 transition-opacity"

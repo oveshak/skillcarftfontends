@@ -2,14 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 
-/**
- * Fully responsive, accessible stat counters with Bengali locale formatting.
- * - Animates when the cards enter viewport (once)
- * - Respects `prefers-reduced-motion`
- * - Fluid typography using clamp()
- * - Mobile-first layout with comfortable spacing
- * - Contrast-safe overlay on background image
- */
+
 
 type StatCounterProps = {
   end: number
@@ -116,7 +109,7 @@ const SuccessStats = () => {
       <div className="px-4 sm:px-6 lg:px-8 py-10 sm:py-14 md:py-16">
         <div className="mx-auto max-w-6xl text-center text-white">
           <h2 id="success-stats-heading" className="text-gray-50 font-extrabold tracking-tight text-[clamp(1.2rem,2.8vw,1.8rem)]">
-            ২০২২–২৪ শিক্ষাবর্ষে টেন মিনিট স্কুলের এডমিশন সাফল্য
+          ২০২৫-২৬ শিক্ষাবর্ষে স্কিলস ক্রাপ্টের ট্রেনিং সাফল্য
           </h2>
           <p className="mt-2 text-[clamp(1rem,2.4vw,1.25rem)] font-medium text-gray-100/95">
             তোমাদের সাফল্যই আমাদের অনুপ্রেরণা

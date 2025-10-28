@@ -24,7 +24,7 @@ export default function Home() {
 <LogoSlider/>
 
       <SscHscCourses />
-      {/* <SkillsCourses /> */}
+      <SkillsCourses />
       {/* <AdmissionCourses /> */}
       {/* <JobPreparationSection /> */}
       <Testimonials />

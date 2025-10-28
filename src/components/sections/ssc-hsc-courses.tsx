@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { GraduationCap, ArrowRight } from "lucide-react";
+import { GraduationCap, ArrowRight, Briefcase } from "lucide-react";
 import CoursesFetcher, { UiCourse } from "@/lib/api/course/CoursesFetcher";
 
 
@@ -54,12 +54,12 @@ export default function SscHscCourses() {
             <div className="text-center">
               <div className="mb-5 flex justify-center items-center gap-2">
                 <div className="flex items-center justify-center p-2 rounded-lg bg-secondary/10">
-                  <GraduationCap className="h-6 w-6 text-secondary" />
+<Briefcase className="h-6 w-6 text-secondary" />
                 </div>
                 <p className="font-bold text-secondary">প্রফেশনাল</p>
               </div>
               <h2 className="font-bengali text-3xl font-bold text-gray-700 sm:text-4xl">
-              প্রফেশনাল মোটরসাইকেল রাইডারদের জন্য
+                  আমাদের পপুলার কোর্স সমূহ
               </h2>
             </div>
 

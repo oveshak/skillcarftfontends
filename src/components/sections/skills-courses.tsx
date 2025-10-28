@@ -5,11 +5,18 @@ import Image from 'next/image';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import img1 from "../../../public/fleet_mangment.jpeg"
+import img2 from "../../../public/for _rode1.jpeg"
+import img5 from "../../../public/for_health2.jpeg"
+import img3 from "../../../public/for_road.jpeg"
+import img4 from "../../../public/for_road_.jpeg"
+import img6 from "../../../public/for_held1.jpeg"
+import type { StaticImageData } from "next/image";
 
 type Course = {
   title: string;
   instructor?: string;
-  image: string;
+ image: string | StaticImageData;
   href: string;
   category: string;
 };
@@ -25,143 +32,143 @@ const stats = [
 ];
 
 const categories: Category[] = [
-  { name: 'ভাষা শিক্ষা' },
-  { name: 'ফ্রিল্যান্সিং' },
-  { name: 'বান্ডেল' },
-  { name: 'স্কিলস এন্ড আইটি' },
-  { name: 'ডিজাইন এন্ড ক্রিয়েটিভ' },
-  { name: 'ক্যারিয়ার রেডিনেস' },
-  { name: 'কিডস কোর্সসমূহ' },
-  { name: 'প্রফেশনাল কোর্সসমূহ' },
-  { name: 'ফ্রি কোর্সসমূহ' },
+  { name: 'For road safety' },
+  { name: 'For Health and safety' },
+  { name: 'Fleet Management' },
+  { name: 'One is for workplace safety and one for Health and safety' }
+  // { name: 'ডিজাইন এন্ড ক্রিয়েটিভ' },
+  // { name: 'ক্যারিয়ার রেডিনেস' },
+  // { name: 'কিডস কোর্সসমূহ' },
+  // { name: 'প্রফেশনাল কোর্সসমূহ' },
+  // { name: 'ফ্রি কোর্সসমূহ' },
 ];
 
 const courses: Course[] = [
   {
-    title: 'IELTS Course by Munzereen Shahid',
-    instructor: 'Munzereen Shahid',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/IELTS_new_16_9.png',
-    href: '/product/ielts-course/',
-    category: 'ভাষা শিক্ষা'
+    title: 'Road safety by MD. MAHABUB ALOM',
+    instructor: 'MD. MAHABUB ALOM',
+    image: img2,
+    href: '/comming',
+    category: 'For road safety'
   },
   {
-    title: 'ঘরে বসে Spoken English',
-    instructor: 'Munzereen Shahid',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/ghore-boshe-Spoken-English-course-thumbnail-by-Munzereen-Shahid-16x9-28.jpg?',
-    href: '/product/ghore-boshe-spoken-english/',
-    category: 'ভাষা শিক্ষা'
+    title: 'Road safety one by MD. MAHABUB ALOM',
+    instructor: 'MD. MAHABUB ALOM',
+    image: img3,
+    href: '/comming',
+    category: 'For road safety'
   },
   {
-    title: 'IELTS LIVE Batch',
-    instructor: 'Uttam Deb +4',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/batch-12-ielts-live-batch-thumbnails.jpg',
-    href: '/product/ielts-live-batch/',
-    category: 'ভাষা শিক্ষা'
+    title: 'Road safety two by MD. MAHABUB ALOM',
+    instructor: 'MD. MAHABUB ALOM',
+    image: img4 ,
+    href: '/comming',
+    category: 'For road safety'
   },
   {
-    title: 'Spoken English Junior LIVE Batch',
-    instructor: 'Rukhsar Sanjaree +4',
-    image: 'https://cdn.10minuteschool.com/images/catalog/media/sej-thumbnial_1734278669669.jpg',
-    href: '/product/spoken-english-junior-live-batch/',
-    category: 'কিডস কোর্সসমূহ'
+    title: 'Health and safety by MD. MAHABUB ALOM',
+    instructor: 'MD. MAHABUB ALOM',
+    image: img6 ,
+    href: '/comming',
+    category: 'For Health and safety'
   },
   {
-    title: '২৪ ঘণ্টায় কোরআন শিখি',
-    instructor: 'মাওলানা শাইখ মুহাম্মাদ জামাল উদ্দীন',
-    image: 'https://cdn.10minuteschool.com/images/catalog/media/%C3%A0%C2%A7%C2%A8%C3%A0%C2%A7%C2%AA-%C3%A0%C2%A6%C2%98%C3%A0%C2%A6%C2%A3%C3%A0%C2%A7%C2%8D%C3%A0%C2%A6%C2%9F%C3%A0%C2%A6%C2%BE%C3%A0%C2%A6%C2%AF%C3%A0%C2%A6%C2%BC-%C3%A0%C2%A6%C2%95%C3%A0%C2%A7%C2%8B%C3%A0%C2%A6%C2%B0%C3%A0%C2%A6%C2%86%C3%A0%C2%A6%C2%A8-%C3%A0%C2%A6%C2%B6%C3%A0%C2%A6%C2%BF%C3%A0%C2%A6%C2%96%C3%A0%C2%A6%C2%BF---Course-Thumbnail-PSD_1732445930516.jpg',
-    href: '/product/easy-quran-reading/',
-    category: 'ভাষা শিক্ষা'
+    title: ' Health and safety one by MD. MAHABUB ALOM',
+    instructor: 'MD. MAHABUB ALOM',
+    image: img5 ,
+    href: '/comming',
+    category: 'For Health and safety'
   },
   {
-    title: 'English Communication for Professionals',
-    instructor: 'Munzereen Shahid',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/english-communication-for-professionals/english-communication-for-professsionals-course-thumbnail---16x9.jpg',
-    href: '/product/english-for-professionals-course/',
-    category: 'প্রফেশনাল কোর্সসমূহ'
+    title: 'Fleet Management by MD. MAHABUB ALOM',
+    instructor: 'MD. MAHABUB ALOM',
+    image: img1,
+    href: '/comming',
+    category: 'Fleet Management'
   },
-  {
-    title: 'অর্থ বুঝে কুরআন শিখি',
-    instructor: 'Hafiz Mawlana Muhammad Muhsin Mashkur',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/best-quran-shikhi-course-thumbnail.jpg',
-    href: '/product/quran-shikhi-course/',
-    category: 'ভাষা শিক্ষা'
-  },
-  {
-    title: 'Complete English Grammar Course',
-    instructor: 'Munzereen Shahid',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/complete-grammar-course-thumbnail.jpg',
-    href: '/product/english-grammar-course/',
-    category: 'ভাষা শিক্ষা'
-  },
-  {
-    title: 'IELTS Reading & Listening Mock Tests',
-    image: 'https://cdn.10minuteschool.com/images/Thumbnails/IELTS-Listening-Reading-Mock-Tests-Course-Thumbnail_discount-30_16_9.jpg',
-    href: '/product/ielts-reading-and-listening-mock-tests/',
-    category: 'ভাষা শিক্ষা'
-  },
-  {
-    title: 'English for Everyday',
-    instructor: 'Munzereen Shahid',
-    image: 'https://cdn.10minuteschool.com/images/Thumbnails/english_for_everyday_16x9.png',
-    href: '/product/english-for-everyday/',
-    category: 'ভাষা শিক্ষা'
-  },
-  {
-    title: 'Web Development Complete Course',
-    instructor: 'Rabbil Hasan',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/web-development-course-thumbnail.jpg',
-    href: '/product/web-development-course/',
-    category: 'স্কিলস এন্ড আইটি'
-  },
-  {
-    title: 'Digital Marketing Course',
-    instructor: 'Sadman Sadik',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/digital-marketing-course-thumbnail.jpg',
-    href: '/product/digital-marketing-course/',
-    category: 'ফ্রিল্যান্সিং'
-  },
-  {
-    title: 'Graphic Design Complete Course',
-    instructor: 'Mizanur Rahman',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/graphic-design-course-thumbnail.jpg',
-    href: '/product/graphic-design-course/',
-    category: 'ডিজাইন এন্ড ক্রিয়েটিভ'
-  },
-  {
-    title: 'Python Programming Course',
-    instructor: 'Tamim Shahriar',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/python-programming-course-thumbnail.jpg',
-    href: '/product/python-programming-course/',
-    category: 'স্কিলস এন্ড আইটি'
-  },
-  {
-    title: 'Career Development Bundle',
-    instructor: 'Multiple Instructors',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/career-bundle-thumbnail.jpg',
-    href: '/product/career-bundle/',
-    category: 'বান্ডেল'
-  },
-  {
-    title: 'Interview Preparation Course',
-    instructor: 'Saiful Islam',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/interview-preparation-thumbnail.jpg',
-    href: '/product/interview-preparation/',
-    category: 'ক্যারিয়ার রেডিনেস'
-  },
-  {
-    title: 'Kids Math Fun Course',
-    instructor: 'Rashida Begum',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/kids-math-course-thumbnail.jpg',
-    href: '/product/kids-math-course/',
-    category: 'কিডস কোর্সসমূহ'
-  },
-  {
-    title: 'Free Basic English Course',
-    instructor: 'Free Instructor',
-    image: 'https://cdn.10minuteschool.com/images/thumbnails/free-english-course-thumbnail.jpg',
-    href: '/product/free-english-course/',
-    category: 'ফ্রি কোর্সসমূহ'
-  }
+  // {
+  //   title: 'অর্থ বুঝে কুরআন শিখি',
+  //   instructor: 'Hafiz Mawlana Muhammad Muhsin Mashkur',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/best-quran-shikhi-course-thumbnail.jpg',
+  //   href: '/product/quran-shikhi-course/',
+  //   category: 'ভাষা শিক্ষা'
+  // },
+  // {
+  //   title: 'Complete English Grammar Course',
+  //   instructor: 'Munzereen Shahid',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/complete-grammar-course-thumbnail.jpg',
+  //   href: '/product/english-grammar-course/',
+  //   category: 'ভাষা শিক্ষা'
+  // },
+  // {
+  //   title: 'IELTS Reading & Listening Mock Tests',
+  //   image: 'https://cdn.10minuteschool.com/images/Thumbnails/IELTS-Listening-Reading-Mock-Tests-Course-Thumbnail_discount-30_16_9.jpg',
+  //   href: '/product/ielts-reading-and-listening-mock-tests/',
+  //   category: 'ভাষা শিক্ষা'
+  // },
+  // {
+  //   title: 'English for Everyday',
+  //   instructor: 'Munzereen Shahid',
+  //   image: 'https://cdn.10minuteschool.com/images/Thumbnails/english_for_everyday_16x9.png',
+  //   href: '/product/english-for-everyday/',
+  //   category: 'ভাষা শিক্ষা'
+  // },
+  // {
+  //   title: 'Web Development Complete Course',
+  //   instructor: 'Rabbil Hasan',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/web-development-course-thumbnail.jpg',
+  //   href: '/product/web-development-course/',
+  //   category: 'স্কিলস এন্ড আইটি'
+  // },
+  // {
+  //   title: 'Digital Marketing Course',
+  //   instructor: 'Sadman Sadik',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/digital-marketing-course-thumbnail.jpg',
+  //   href: '/product/digital-marketing-course/',
+  //   category: 'ফ্রিল্যান্সিং'
+  // },
+  // {
+  //   title: 'Graphic Design Complete Course',
+  //   instructor: 'Mizanur Rahman',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/graphic-design-course-thumbnail.jpg',
+  //   href: '/product/graphic-design-course/',
+  //   category: 'ডিজাইন এন্ড ক্রিয়েটিভ'
+  // },
+  // {
+  //   title: 'Python Programming Course',
+  //   instructor: 'Tamim Shahriar',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/python-programming-course-thumbnail.jpg',
+  //   href: '/product/python-programming-course/',
+  //   category: 'স্কিলস এন্ড আইটি'
+  // },
+  // {
+  //   title: 'Career Development Bundle',
+  //   instructor: 'Multiple Instructors',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/career-bundle-thumbnail.jpg',
+  //   href: '/product/career-bundle/',
+  //   category: 'বান্ডেল'
+  // },
+  // {
+  //   title: 'Interview Preparation Course',
+  //   instructor: 'Saiful Islam',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/interview-preparation-thumbnail.jpg',
+  //   href: '/product/interview-preparation/',
+  //   category: 'ক্যারিয়ার রেডিনেস'
+  // },
+  // {
+  //   title: 'Kids Math Fun Course',
+  //   instructor: 'Rashida Begum',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/kids-math-course-thumbnail.jpg',
+  //   href: '/product/kids-math-course/',
+  //   category: 'কিডস কোর্সসমূহ'
+  // },
+  // {
+  //   title: 'Free Basic English Course',
+  //   instructor: 'Free Instructor',
+  //   image: 'https://cdn.10minuteschool.com/images/thumbnails/free-english-course-thumbnail.jpg',
+  //   href: '/product/free-english-course/',
+  //   category: 'ফ্রি কোর্সসমূহ'
+  // }
 ];
 
 
@@ -219,7 +226,7 @@ const SkillsCourses = () => {
             <p className="font-medium text-accent-purple">স্কিলস</p>
           </div>
           <h2 className="mt-4 text-3xl font-bold text-center md:text-5xl">
-            দেশসেরা স্কিল ডেভেলপমেন্ট প্লাটফর্ম
+            প্রফেশনাল স্কিল ডেভেলপমেন্ট প্লাটফর্ম
           </h2>
           <ul className="flex flex-wrap items-center justify-center gap-4 mt-6 md:gap-8 text-muted-foreground">
             {stats.map((stat, index) => (

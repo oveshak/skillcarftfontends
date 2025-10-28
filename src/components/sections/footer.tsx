@@ -119,10 +119,10 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-5 text-black">আমাদের যোগাযোগ মাধ্যম</h3>
             <div className="space-y-3 text-sm text-text-secondary">
-              <p className="text-sm lg:text-base text-gray-800">কল করুন: <a href="tel:16910" className="hover:text-green-800 transition-colors">16910</a> (24x7)</p>
-              <p className="text-sm lg:text-base text-gray-800">হোয়াটসঅ্যাপ: <a href="https://api.whatsapp.com/send?phone=+8801896016252&text=I%20need%20your%20assistance" className="hover:text-green-800 transition-colors" target="_blank" rel="noopener noreferrer">+8801896016252</a> (24x7)</p>
-              <p className="text-sm lg:text-base text-gray-800">দেশের বাহির থেকে: <a href="tel:+8809610916910" className="hover:text-green-800 transition-colors">+880 9610916910</a></p>
-              <p className="text-sm lg:text-base text-gray-800" >ইমেইল: <a href="mailto:support@10minuteschool.com" className="hover:text-green-800 transition-colors">support@10minuteschool.com</a></p>
+              <p className="text-sm lg:text-base text-gray-800">কল করুন: <a href="tel:+8801926917452" className="hover:text-green-800 transition-colors">+8801926917452</a> (24x7)</p>
+              <p className="text-sm lg:text-base text-gray-800">হোয়াটসঅ্যাপ: <a href="https://api.whatsapp.com/send?phone=+8801896016252&text=I%20need%20your%20assistance" className="hover:text-green-800 transition-colors" target="_blank" rel="noopener noreferrer">+880 1926-917452</a> (24x7)</p>
+              <p className="text-sm lg:text-base text-gray-800">দেশের বাহির থেকে: <a href="tel:+8801926917452" className="hover:text-green-800 transition-colors">+880 1926-917452</a></p>
+              <p className="text-sm lg:text-base text-gray-800" >ইমেইল: <a href="mailto:support@skillscraftacademy.com" className="hover:text-green-800 transition-colors">support@skillscraftacademy.com</a></p>
             </div>
             <div className="flex items-center gap-3 mt-6">
               {socialLinks.map((social) => (
@@ -143,7 +143,7 @@ const Footer = () => {
 
         <div className="mt-14 pt-8 border-t border-border-subtle">
            <p className="text-center text-sm text-text-muted">
-             স্বত্ব © ২০১৫ - ২০২৫ টেন মিনিট স্কুল কর্তৃক সর্বস্বত্ব সংরক্ষিত
+             স্বত্ব © ২০১৫ - ২০২৫ স্কিলস ক্রাপ্টের ট্রেনিং কর্তৃক সর্বস্বত্ব সংরক্ষিত
            </p>
         </div>
       </div>

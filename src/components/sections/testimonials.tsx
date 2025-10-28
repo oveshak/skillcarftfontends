@@ -104,7 +104,7 @@ export default function Testimonials({
           className="text-center text-3xl md:text-4xl font-bold mb-12 text-gray-700"
           style={{ fontFamily: "var(--font-bengali)" }}
         >
-          কেন আমরাই শিক্ষার্থী ও অভিভাবকগণের প্রথম পছন্দ?
+        আমাদের সম্মানিত ক্লাইন্টের রিভিউ
         </h2>
 
         <Carousel opts={{ align: "start", loop: true }} className="w-full">

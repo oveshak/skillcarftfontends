@@ -8,7 +8,7 @@ const VideoSection = () => {
           বছর জুড়ে অনলাইন ব্যাচে কী কী থাকছে?
         </h2>
         <p className="font-[var(--font-bengali)] text-center text-gray-500 max-w-2xl mx-auto mb-10 md:mb-12 text-base md:text-lg">
-          সেরা শিক্ষকদের পরিচর্যায় দেশের যেকোন প্রান্ত থেকে অব্যাহত থাকুক পড়াশুনার অগ্রযাত্রা
+          {/* সেরা শিক্ষকদের পরিচর্যায় দেশের যেকোন প্রান্ত থেকে অব্যাহত থাকুক পড়াশুনার অগ্রযাত্রা */}
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
