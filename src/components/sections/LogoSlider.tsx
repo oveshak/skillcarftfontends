@@ -107,11 +107,11 @@ const LogoSlider = () => {
                 className="flex-shrink-0 w-32 h-20 sm:w-40 sm:h-24 md:w-48 md:h-32 flex items-center justify-center"
               >
                 <div className="w-full h-full rounded-lg md:rounded-xl flex items-center justify-center transform transition-all duration-300 hover:scale-105  p-4 sm:p-5 md:p-6">
-                  <img
-                    src={logo.url instanceof String ? logo.url : logo.url.src} // Ensure to access 'src' when StaticImageData
-                    alt={`Client Logo ${logo.id}`}
-                    className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                  />
+                 <img
+  src={typeof logo.url === 'string' ? logo.url : logo.url.src}  // Check if it's a string
+  alt={`Client Logo ${logo.id}`}
+  className="max-w-full max-h-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+/>
                 </div>
               </div>
             ))}
