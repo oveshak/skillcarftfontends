@@ -1,8 +1,9 @@
 
 "server-only"
 import { cache } from "react";
+import { url } from "../baseurl";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://127.0.0.1:8000";
+
 
 /** lightweight JWT decode (middle part only) */
 function decodeJwt<T = unknown>(token: string): T {
@@ -33,7 +34,7 @@ type TokenPayload = { data: Category[] };
 
 /** মূল ফেচ (tagged, revalidate) */
 const _fetchAll = cache(async () => {
-  const res = await fetch(`${API_BASE}/category/`, {
+  const res = await fetch(`${url}/category/`, {
     headers: { Accept: "application/json" },
     next: { revalidate: 300, tags: ["categories"] }, // 5 min ISR + ট্যাগ
   });
