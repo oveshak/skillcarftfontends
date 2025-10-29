@@ -37,6 +37,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    domains: ['skillscraftacademy.com'],
     remotePatterns: [
         {
          protocol: 'https',

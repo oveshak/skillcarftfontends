@@ -357,16 +357,17 @@ const CategoryFilters = ({
 };
 
 const CourseCard = ({ course }: { course: Course }) => {
+  console.log(course)
   const isFree = course.price === 0 || course.offer_price === 0;
-  
+  console.log(course.course_thumbnail)
   return (
     <Link 
-      href={`/course/${course.slug}`} 
+      href={`/courses/${course.slug}`} 
       className="block overflow-hidden transition-transform duration-300 ease-in-out transform bg-card rounded-card group hover:-translate-y-1"
     >
       <div className="relative w-full aspect-[16/9]">
         <Image 
-          src={course.course_thumbnail || FALLBACK_IMG} 
+          src={course.course_thumbnail}
           alt={course.title} 
           fill
           className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -467,8 +468,8 @@ const SkillsCourses = () => {
   }, [activeCategory]);
 
   const activeCategoryData = categories.find(c => c.id === activeCategory);
-  const activeCategorySlug = activeCategoryData?.slug || 
-    (activeCategoryData ? `${slugify(activeCategoryData.title)}-${activeCategoryData.id}` : '');
+  // const activeCategorySlug = activeCategoryData?.slug || 
+  //   (activeCategoryData ? `${slugify(activeCategoryData.title)}-${activeCategoryData.id}` : '');
 
   return (
     <section className="py-20 bg-black text-foreground">
