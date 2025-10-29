@@ -106,12 +106,12 @@ const FreelancingSection = () => {
                 <div className="mb-6 flex items-center gap-2 text-sm text-gray-300">
                   <span>কোর্সসমূহ</span>
                   <ArrowRight className="h-4 w-4" />
-                  <span className="text-white ">ফ্রিল্যান্সিং</span>
+                  <span className="text-white ">সব কোর্স</span>
                 </div>
 
                 <div className="flex flex-col lg:flex-row items-center justify-between lg:gap-12">
                   <div className="flex-1 max-w-2xl">
-                    <h1 className="text-xl lg:text-3xl font-bold mb-6">ফ্রিল্যান্সিং</h1>
+                    <h1 className="text-xl lg:text-3xl font-bold mb-6">সব কোর্স</h1>
                     <p className=" text-xs lg:text-sm text-gray-300 leading-relaxed mb-8">
                       ফ্রিল্যান্সিং মার্কেটপ্লেসে বিভিন্ন দেশের সহজ ফ্রিল্যান্সিং বিষয়ে কর্মীরা পরস্পর চো
                       দিয়ে দিয়ে রয় নিয়ে আসছে দেশ বিদেশ Freelancing Courses! SEO বিজ, ডাটা এন্ট্রি, Logo

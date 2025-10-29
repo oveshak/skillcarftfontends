@@ -62,7 +62,7 @@ const VideoSection = () => {
         </div>
         
         <div className="text-center">
-            <Link href="/online-batch/" className="inline-block bg-accent-green text-primary-foreground font-semibold py-3 px-8 rounded-lg transition-colors hover:bg-green-600 font-[var(--font-bengali)] text-lg">
+            <Link href="/categories/language-learning" className="inline-block bg-accent-green text-primary-foreground font-semibold py-3 px-8 rounded-lg transition-colors hover:bg-green-600 font-[var(--font-bengali)] text-lg">
                 আপনার ক্লাস বেছে নিন
             </Link>
         </div>

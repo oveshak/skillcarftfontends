@@ -21,7 +21,7 @@ export default function Home() {
      
       <VideoSection />
 
-<LogoSlider/>
+
 
       <SscHscCourses />
       <SkillsCourses />
@@ -30,6 +30,7 @@ export default function Home() {
       <Testimonials />
       {/* <FreeResources /> */}
       <SuccessStats />
+      <LogoSlider/>
       <MobileAppSection />
 
     </main>

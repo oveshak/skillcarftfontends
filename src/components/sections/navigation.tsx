@@ -20,7 +20,8 @@ import Link from "next/link";
 import logo from "../../../public/skillsCraftlogo.png";
 import { isLoggedIn, logoutUser } from "@/lib/api";
 import { useRouter } from "next/navigation";
-import { Card } from "../ui/container-scroll-animation";
+import { CategoryWithSafeSlug, getAllCategories } from "@/lib/api/category/fatchcategory";
+
 
 /* ---------- (unchanged) NavItem & MobileNavItem components ---------- */
 
@@ -193,7 +194,7 @@ const Navigation = () => {
   );
   const [userName, setUserName] = useState<string>("Account");
 
- 
+  const [navItemsList, setnavItemsList] = useState<CategoryWithSafeSlug[]>([]);
 
  useEffect(() => {
   const updateAuth = () => {
@@ -240,6 +241,16 @@ const Navigation = () => {
     router.refresh(); // ensure UI refresh
   };
 
+useEffect(() => {
+    async function load() {
+      const cats = await getAllCategories();
+      console.log(cats);
+      setnavItemsList(cats)
+    }
+    load();
+  }, []);
+console.log(navItemsList)
+
   const userMenuItems = [
     { label: "Dashboard", href: "/user/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> },
     { label: "My Courses", href: "/user/buycourse", icon: <BookOpen className="h-4 w-4" /> },
@@ -251,55 +262,55 @@ const Navigation = () => {
     { label: "Profile", href: "/user/profile", icon: <User className="h-4 w-4" /> },
    
   ];
-
-  const navItemsList = [
-    // {
-    //   label: "ক্লাস ৬-১২",
-    //   href: "/academic/",
-    //   dropdown: true,
-    //   dropdownItems: [
-    //     { label: "ক্লাস ৬", href: "/academic/class-6" },
-    //     { label: "ক্লাস ৭", href: "/academic/class-7" },
-    //     { label: "ক্লাস ৮", href: "/academic/class-8" },
-    //     { label: "ক্লাস ৯-১০ (এসএসসি)", href: "/academic/class-9-10" },
-    //     { label: "ক্লাস ১১-১২ (এইচএসসি)", href: "/academic/class-11-12" },
-    //     { label: "পরীক্ষার প্রস্তুতি", href: "/academic/exam-prep" },
-    //   ],
-    // },
-    // {
-    //   label: "স্কিলস",
-    //   href: "/skills/",
-    //   dropdown: true,
-    //   dropdownItems: [
-    //     { label: "প্রোগ্রামিং", href: "/skills/programming" },
-    //     { label: "ওয়েব ডিজাইন", href: "/skills/web-design" },
-    //     { label: "গ্রাফিক্স ডিজাইন", href: "/skills/graphics-design" },
-    //     { label: "ডিজিটাল মার্কেটিং", href: "/skills/digital-marketing" },
-    //     { label: "ডেটা সাইন্স", href: "/skills/data-science" },
-    //     { label: "ব্যবসা ও উদ্যোক্তা", href: "/skills/business" },
-    //   ],
-    // },
-    {
-      label: "All Course",
-      href: "/categories/language-learning/",
-    },
-    // {
-    //   label: "ভর্তি পরীক্ষা",
-    //   href: "/admission",
-    // },
-    // {
-    //   label: "আরো",
-    //   href: "#",
-    //   dropdown: true,
-    //   dropdownItems: [
-    //     { label: "জব প্রিপারেশন", href: "/job-preparation" },
-    //     { label: "বই ও পিডিএফ", href: "/books-pdf" },
-    //     { label: "লাইভ ক্লাস", href: "/live-classes" },
-    //     { label: "ব্লগ", href: "/blog" },
-    //     { label: "সাপোর্ট", href: "/support" },
-    //   ],
-    // },
-  ];
+ 
+  // const navItemsList = [
+  //   // {
+  //   //   label: "ক্লাস ৬-১২",
+  //   //   href: "/academic/",
+  //   //   dropdown: true,
+  //   //   dropdownItems: [
+  //   //     { label: "ক্লাস ৬", href: "/academic/class-6" },
+  //   //     { label: "ক্লাস ৭", href: "/academic/class-7" },
+  //   //     { label: "ক্লাস ৮", href: "/academic/class-8" },
+  //   //     { label: "ক্লাস ৯-১০ (এসএসসি)", href: "/academic/class-9-10" },
+  //   //     { label: "ক্লাস ১১-১২ (এইচএসসি)", href: "/academic/class-11-12" },
+  //   //     { label: "পরীক্ষার প্রস্তুতি", href: "/academic/exam-prep" },
+  //   //   ],
+  //   // },
+  //   // {
+  //   //   label: "স্কিলস",
+  //   //   href: "/skills/",
+  //   //   dropdown: true,
+  //   //   dropdownItems: [
+  //   //     { label: "প্রোগ্রামিং", href: "/skills/programming" },
+  //   //     { label: "ওয়েব ডিজাইন", href: "/skills/web-design" },
+  //   //     { label: "গ্রাফিক্স ডিজাইন", href: "/skills/graphics-design" },
+  //   //     { label: "ডিজিটাল মার্কেটিং", href: "/skills/digital-marketing" },
+  //   //     { label: "ডেটা সাইন্স", href: "/skills/data-science" },
+  //   //     { label: "ব্যবসা ও উদ্যোক্তা", href: "/skills/business" },
+  //   //   ],
+  //   // },
+  //   {
+  //     label: "All Course",
+  //     href: "/categories/language-learning/",
+  //   },
+  //   // {
+  //   //   label: "ভর্তি পরীক্ষা",
+  //   //   href: "/admission",
+  //   // },
+  //   // {
+  //   //   label: "আরো",
+  //   //   href: "#",
+  //   //   dropdown: true,
+  //   //   dropdownItems: [
+  //   //     { label: "জব প্রিপারেশন", href: "/job-preparation" },
+  //   //     { label: "বই ও পিডিএফ", href: "/books-pdf" },
+  //   //     { label: "লাইভ ক্লাস", href: "/live-classes" },
+  //   //     { label: "ব্লগ", href: "/blog" },
+  //   //     { label: "সাপোর্ট", href: "/support" },
+  //   //   ],
+  //   // },
+  // ];
 
   const handleDropdownToggle = (label: string, state: boolean) => {
     if (dropdownTimeout) {
@@ -331,7 +342,7 @@ const Navigation = () => {
   return (
     <>
       <header className="sticky top-0 z-50 shadow bg-white font-bengali md:h-[65px]">
-        <div className="mx-auto flex container items-center justify-between gap-3 px-4 py-0 ">
+        <div className="mx-auto flex container items-center justify-between gap-3 px-4 lg:px-0 py-0 ">
           <div className="flex items-center gap-2">
             <button
               className="xl:hidden text-gray-950"
@@ -372,7 +383,7 @@ const Navigation = () => {
             </div>
           </div>
 
-          <nav className="mr-4 hidden xl:block">
+          {/* <nav className="mr-4 hidden xl:block">
             <ul className="flex items-center gap-2 lg:gap-4">
               {navItemsList.map((item) => (
                 <li key={item.label} className="relative">
@@ -386,8 +397,17 @@ const Navigation = () => {
                 </li>
               ))}
             </ul>
-          </nav>
-
+          </nav> */}
+<nav className="mr-4 hidden xl:block">
+      <ul className="flex items-center gap-2 lg:gap-6">
+        {navItemsList.map((item) => (
+          <li key={item.id} className="relative">
+            
+            <Link href={`/categories/${item.slug}`} className="text-gray-700 font-semibold">{item.title} </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
           {/* ====== RIGHT SIDE: Language + Phone + Auth ====== */}
           <div className="flex items-center space-x-4 md:space-x-6">
             {/* Language Selector */}
@@ -590,7 +610,7 @@ const Navigation = () => {
 
           {/* Mobile nav items */}
           <nav className="flex flex-col">
-            {navItemsList.map((item) => (
+            {/* {navItemsList.map((item) => (
               <MobileNavItem
                 key={item.label}
                 {...item}
@@ -598,7 +618,22 @@ const Navigation = () => {
                 isOpen={mobileOpenDropdown === item.label}
                 onToggle={() => handleMobileDropdownToggle(item.label)}
               />
-            ))}
+            ))} */}
+
+            {navItemsList.map((item) => (
+          <li key={item.id} className="relative">
+            <Link
+      href={`/categories/${item.slug}`}
+      
+      className="flex items-center justify-between py-3 text-lg font-medium text-gray-800 hover:text-primary border-b border-border/30 transition-colors"
+    >
+      <span>{item?.title}</span>
+    </Link>
+            {/* <Link href={`/categories/${item.slug}`} className="text-gray-700 font-semibold">{item.title} </Link> */}
+          </li>
+        ))}
+
+
 
             {/* Mobile auth row at bottom */}
             <div className="pt-4">

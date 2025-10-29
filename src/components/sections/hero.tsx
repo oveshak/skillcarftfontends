@@ -197,7 +197,7 @@ const HeroSection = () => {
                 className="flex items-center gap-1 text-primary hover:underline font-bengali"
                 href="/categories/language-learning"
               >
-                অনলাইনে কোর্স করতে এখনই এনরোল করুন{" "}
+                অনলাইনে কোর্স করতে এখনই এনরোল করুন
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -205,7 +205,7 @@ const HeroSection = () => {
 
           <div className="relative flex-1 min-w-0 bg-[linear-gradient(180deg,rgba(150,96,20,0.40)_0%,rgba(59,37,6,0.40)_100%)] rounded-[34px] border border-[#64523D] text-center px-6 pt-10 pb-4 md:pb-8">
             <h2 className="absolute text-[#F29D1F] border border-[#F29D1F] inline-block rounded-full px-[20px] py-[4px] bg-[#583112] left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 text-sm md:text-base">
-              অনলাইন কোর্স
+             অফলাইনে কোর্স
             </h2>
             <h3 className="text-base md:text-2xl max-w-[360px] mb-4 mx-auto font-bengali">
               পছন্দের স্কিল শিখুন, নিজেকে সেরা করে গড়ে তুলুন

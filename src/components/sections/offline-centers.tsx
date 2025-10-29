@@ -136,7 +136,7 @@ const OfflineCenters = () => {
               />
             </div>
             <div className="flex-1">
-              <h4 className="text-sm font-semibold text-foreground">
+              <h4 className="text-left text-sm font-semibold text-foreground">
                 {course.title}
               </h4>
               <p className="text-left text-xs text-muted-foreground font-bengali">
